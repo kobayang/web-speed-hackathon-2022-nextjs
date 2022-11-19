@@ -1,28 +1,21 @@
 import moment from "moment-timezone";
 import { Between, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import { BadRequestError, handleErrorToStatusCode } from "../../../src/errors";
 import { Race } from "../../../src/model";
 
 import { withAuth } from "../../../src/server/middlewares/withAuth";
 import { withConnection } from "../../../src/server/middlewares/withConnection";
 import { createConnection } from "../../../src/server/typeorm/connection";
 
-export default async function handler(req, res) {
-  await withAuth(req, res);
-  await withConnection(req, res);
-  if (res.headersSent) return;
-
-  const since =
-    req.query.since != null ? moment.unix(req.query.since) : undefined;
-  const until =
-    req.query.until != null ? moment.unix(req.query.until) : undefined;
+export async function getRaces(query) {
+  const since = query.since != null ? moment.unix(query.since) : undefined;
+  const until = query.until != null ? moment.unix(query.until) : undefined;
 
   if (since != null && !since.isValid()) {
-    res.status(400).send();
-    return;
+    throw BadRequestError();
   }
   if (until != null && !until.isValid()) {
-    res.status(400).send();
-    return;
+    throw BadRequestError();
   }
 
   const repo = (await createConnection()).getRepository(Race);
@@ -49,5 +42,19 @@ export default async function handler(req, res) {
     where,
   });
 
-  res.send({ races });
+  return { races: JSON.parse(JSON.stringify(races)) };
+}
+
+export default async function handler(req, res) {
+  await withAuth(req, res);
+  await withConnection(req, res);
+  if (res.headersSent) return;
+
+  try {
+    const data = await getRaces(req.query);
+    res.send(data);
+  } catch (error) {
+    const code = handleErrorToStatusCode(error);
+    res.status(code).send();
+  }
 }

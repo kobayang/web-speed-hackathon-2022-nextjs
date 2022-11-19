@@ -10,6 +10,10 @@ import {
 } from "../../model/index.js";
 import { DATABASE_PATH } from "../paths.js";
 
+/**
+ *
+ * @type Promise<typeorm.Connection>}
+ */
 let connectionReadyPromise = null;
 
 const createConnection = () => {

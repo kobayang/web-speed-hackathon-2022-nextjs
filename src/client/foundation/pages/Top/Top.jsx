@@ -32,8 +32,8 @@ const ChargeDialog = lazy(() => import("./internal/ChargeDialog/ChargeDialog"));
  * @returns {Model.Race[]}
  */
 function useTodayRacesWithAnimation(races) {
-  const [isRacesUpdate, setIsRacesUpdate] = useState(false);
-  const [racesToShow, setRacesToShow] = useState([]);
+  const [isRacesUpdate, setIsRacesUpdate] = useState(true);
+  const [racesToShow, setRacesToShow] = useState(races);
   const numberOfRacesToShow = useRef(0);
   const prevRaces = useRef(races);
   const timer = useRef(null);
@@ -115,7 +115,7 @@ const getYYYYMMDD = (d) => {
 };
 
 /** @type {React.VFC} */
-export const Top = () => {
+export const Top = ({ raceData, imageUrl }) => {
   const { date = getYYYYMMDD(new Date()) } = useRouter().query;
 
   const chargeDialogRef = useRef(null);
@@ -124,8 +124,6 @@ export const Top = () => {
     "/api/users/me",
     authorizedJsonFetcher
   );
-
-  const { data: raceData } = useFetch("/api/races", jsonFetcher);
 
   const handleClickChargeButton = useCallback(() => {
     if (chargeDialogRef.current === null) {
@@ -151,11 +149,8 @@ export const Top = () => {
           )
       : [];
   const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
-  const heroImageUrl = useHeroImage(todayRaces);
-
+  const heroImageUrl = useHeroImage(todayRaces) || imageUrl;
   const isAllRacesDisplayed = todayRacesToShow.length !== todayRaces.length;
-
-  if (!heroImageUrl) return null;
 
   return (
     <>
@@ -179,7 +174,6 @@ export const Top = () => {
               </ChargeButton>
             </Stack>
           )}
-
           <Spacer mt={Space * 2} />
           <section>
             <Heading as="h1">本日のレース</Heading>

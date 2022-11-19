@@ -34,11 +34,11 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
     {
       auth: true,
       method: "POST",
-    },
+    }
   );
   const { data: userData, revalidate } = useAuthorizedFetch(
     "/api/users/me",
-    authorizedJsonFetcher,
+    authorizedJsonFetcher
   );
   const [error, setError] = useState(null);
 
@@ -55,7 +55,7 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
         type: "trifecta",
       });
     },
-    [odds, buyTicket],
+    [odds, buyTicket]
   );
 
   useEffect(() => {
