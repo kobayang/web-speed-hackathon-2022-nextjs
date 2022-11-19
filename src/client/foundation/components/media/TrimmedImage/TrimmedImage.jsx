@@ -1,11 +1,11 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 export const useImageSize = ({ calc, height: initialHeight, width }) => {
   const ref = useRef(null);
   const [height, setHeight] = useState(calc ? undefined : initialHeight);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!calc) return;
     const imgElm = ref.current;
     if (!imgElm) return;

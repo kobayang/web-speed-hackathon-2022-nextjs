@@ -41,9 +41,8 @@ const Callout = styled.aside`
   padding: ${Space * 1}px ${Space * 2}px;
 `;
 
-export const Odds = () => {
+export const Odds = ({ data }) => {
   const { raceId } = useRouter().query;
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
 
@@ -57,14 +56,6 @@ export const Odds = () => {
     },
     []
   );
-
-  if (data == null) {
-    return (
-      <main>
-        <Container>Loading...</Container>
-      </main>
-    );
-  }
 
   const isRaceClosed = isBefore(data.closeAt, new Date());
 

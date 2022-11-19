@@ -28,17 +28,8 @@ const LiveBadge = styled.span`
 `;
 
 /** @type {React.VFC} */
-export const RaceCard = () => {
+export const RaceCard = ({ data }) => {
   const { raceId } = useRouter().query;
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
-
-  if (data == null) {
-    return (
-      <main>
-        <Container>Loading...</Container>
-      </main>
-    );
-  }
 
   return (
     <>

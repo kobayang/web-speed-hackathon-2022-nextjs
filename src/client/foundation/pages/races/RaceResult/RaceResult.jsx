@@ -29,21 +29,12 @@ const LiveBadge = styled.span`
 `;
 
 /** @type {React.VFC} */
-export const RaceResult = () => {
+export const RaceResult = ({ data }) => {
   const { raceId } = useRouter().query;
-  const { data } = useFetch(`/api/races/${raceId}`, jsonFetcher);
   const { data: ticketData } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
     authorizedJsonFetcher
   );
-
-  if (data == null) {
-    return (
-      <main>
-        <Container>Loading...</Container>
-      </main>
-    );
-  }
 
   return (
     <>
