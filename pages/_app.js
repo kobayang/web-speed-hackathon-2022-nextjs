@@ -1,7 +1,20 @@
-import '../styles/globals.css'
+import "../styles/global.css";
+
+import { StyleSheetManager } from "styled-components";
+import { AuthContextProvider } from "../src/client/foundation/contexts/AuthContext";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <>
+      <StyleSheetManager disableCSSOMInjection>
+        <AuthContextProvider>
+          <Component {...pageProps} />
+        </AuthContextProvider>
+      </StyleSheetManager>
+    </>
+  );
 }
 
-export default MyApp
+MyApp.getInitialProps = async () => ({ pageProps: {} });
+
+export default MyApp;
