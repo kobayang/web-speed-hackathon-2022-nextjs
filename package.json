@@ -23,5 +23,9 @@
     "styled-components": "^5.3.6",
     "typeorm": "0.2.44",
     "zengin-code": "1.0.0-p20220130"
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^5.43.0",
+    "typescript": "^4.9.3"
   }
 }
