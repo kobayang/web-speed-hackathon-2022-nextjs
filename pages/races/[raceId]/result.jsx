@@ -15,10 +15,17 @@ export default function Component(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
+};
+
+export async function getStaticProps(context) {
   try {
-    const data = await getRace(context.query.raceId);
-    return { props: { data } };
+    const data = await getRace(context.params.raceId);
+    return { props: { data }, revalidate: 10 };
   } catch (error) {
     console.log(error);
     return { props: { statusCode: 500 } };

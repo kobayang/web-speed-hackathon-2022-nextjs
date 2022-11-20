@@ -15,10 +15,10 @@ export default function Component(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps() {
   try {
     const raceData = await getRaces();
-    return { props: { raceData } };
+    return { props: { raceData }, revalidate: 10 };
   } catch (error) {
     console.log(error);
     return { props: { statusCode: 500 } };
