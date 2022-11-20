@@ -21,6 +21,7 @@ export async function getServerSideProps(context) {
     const data = await getRace(context.query);
     return { props: { data } };
   } catch (error) {
+    console.log(error);
     const statusCode = handleErrorToStatusCode(error);
     context.res.statusCode = statusCode;
     return { props: { statusCode } };

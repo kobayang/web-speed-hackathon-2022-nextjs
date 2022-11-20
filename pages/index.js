@@ -28,6 +28,7 @@ export async function getServerSideProps(context) {
 
     return { props: { raceData, imageUrl } };
   } catch (error) {
+    console.log(error);
     const statusCode = handleErrorToStatusCode(error);
     context.res.statusCode = statusCode;
     return { props: { statusCode } };
