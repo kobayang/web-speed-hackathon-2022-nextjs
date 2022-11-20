@@ -24,7 +24,7 @@ import { useAuth } from "../contexts/AuthContext";
  * @returns {[(body: any) => Promise<void>, ReturnValues<T>]}
  */
 export function useMutation(apiPath, { auth, method }) {
-  const apiUri = `${process.env.API_HOST}${apiPath}`;
+  const apiUri = `${process.env.NEXT_PUBLIC_API_HOST}${apiPath}`;
 
   const [result, setResult] = useState({
     data: null,

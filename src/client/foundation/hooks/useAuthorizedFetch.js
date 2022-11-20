@@ -18,7 +18,7 @@ import { useAuth } from "../contexts/AuthContext";
  * @returns {ReturnValues<T>}
  */
 export function useAuthorizedFetch(apiPath, fetcher) {
-  const apiUri = `${process.env.API_HOST}${apiPath}`;
+  const apiUri = `${process.env.NEXT_PUBLIC_API_HOST}${apiPath}`;
   const { loggedIn, userId } = useAuth();
 
   const [result, setResult] = useState({

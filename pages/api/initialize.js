@@ -1,17 +1,11 @@
-import { BettingTicket, User } from "../../src/model";
-import { withAuth } from "../../src/server/middlewares/withAuth";
-import { withConnection } from "../../src/server/middlewares/withConnection";
-import { createConnection } from "../../src/server/typeorm/connection";
+import axios from "axios";
 
 export default async function handler(req, res) {
-  await withAuth(req, res);
-  await withConnection(req, res);
-  if (res.headersSent) return;
-
-  const connetion = await createConnection();
-  // Clear BettingTicket
-  await connetion.createQueryRunner().manager.clear(BettingTicket);
-  // Clear User
-  await connetion.createQueryRunner().manager.clear(User);
+  await axios.request({
+    url: `${process.env.NEXT_PUBLIC_API_HOST}/api/initialize`,
+    headers: {
+      "content-type": "application/json",
+    },
+  });
   res.status(204).send();
 }
