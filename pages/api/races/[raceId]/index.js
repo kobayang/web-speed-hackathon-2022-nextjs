@@ -12,7 +12,7 @@ export async function getRace(query) {
   });
 
   if (race === undefined) {
-    throw NotFoundError();
+    throw new NotFoundError();
   }
   return JSON.parse(JSON.stringify(race));
 }

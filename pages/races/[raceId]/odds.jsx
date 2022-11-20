@@ -1,6 +1,7 @@
 import Error from "next/error";
 import { Header } from "../../../src/client/foundation/components/navs/Header/Header";
 import { Odds } from "../../../src/client/foundation/pages/races/Odds/Odds";
+import { handleErrorToStatusCode } from "../../../src/errors";
 import { getRace } from "../../api/races/[raceId]";
 
 export default function Component(props) {

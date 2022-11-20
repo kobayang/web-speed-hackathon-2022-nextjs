@@ -12,10 +12,10 @@ export async function getRaces(query) {
   const until = query.until != null ? moment.unix(query.until) : undefined;
 
   if (since != null && !since.isValid()) {
-    throw BadRequestError();
+    throw new BadRequestError();
   }
   if (until != null && !until.isValid()) {
-    throw BadRequestError();
+    throw new BadRequestError();
   }
 
   const repo = (await createConnection()).getRepository(Race);

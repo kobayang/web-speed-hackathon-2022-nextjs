@@ -2,6 +2,7 @@ import { Header } from "../../../src/client/foundation/components/navs/Header/He
 import { RaceResult } from "../../../src/client/foundation/pages/races/RaceResult/RaceResult";
 import Error from "next/error";
 import { getRace } from "../../api/races/[raceId]";
+import { handleErrorToStatusCode } from "../../../src/errors";
 
 export default function Component(props) {
   if (props.statusCode) {
