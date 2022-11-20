@@ -24,6 +24,8 @@ import { useAuth } from "../contexts/AuthContext";
  * @returns {[(body: any) => Promise<void>, ReturnValues<T>]}
  */
 export function useMutation(apiPath, { auth, method }) {
+  const apiUri = `${process.env.API_HOST}${apiPath}`;
+
   const [result, setResult] = useState({
     data: null,
     error: null,
@@ -52,7 +54,7 @@ export function useMutation(apiPath, { auth, method }) {
               }
             : {},
           method,
-          url: apiPath,
+          url: apiUri,
         });
 
         setResult((cur) => ({
@@ -68,7 +70,7 @@ export function useMutation(apiPath, { auth, method }) {
         }));
       }
     },
-    [apiPath, auth, loggedIn, method, userId],
+    [apiUri, auth, loggedIn, method, userId]
   );
 
   return [mutate, result];

@@ -38,7 +38,7 @@ export const useAuth = () => {
       loggedIn: userId != null,
       userId,
     }),
-    [userId],
+    [userId]
   );
 
   return res;
@@ -48,7 +48,7 @@ export const useRegister = () => {
   const { setUserId } = useContext(AuthContext);
 
   const register = useCallback(async () => {
-    const res = await axios.get("/api/users/me");
+    const res = await axios.get(`${process.env.API_HOST}/api/users/me`);
     setUserId(res.data.id);
   }, [setUserId]);
 

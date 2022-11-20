@@ -18,6 +18,7 @@ import { useAuth } from "../contexts/AuthContext";
  * @returns {ReturnValues<T>}
  */
 export function useAuthorizedFetch(apiPath, fetcher) {
+  const apiUri = `${process.env.API_HOST}${apiPath}`;
   const { loggedIn, userId } = useAuth();
 
   const [result, setResult] = useState({
@@ -37,7 +38,7 @@ export function useAuthorizedFetch(apiPath, fetcher) {
       loading: true,
     }));
 
-    const promise = fetcher(apiPath, userId);
+    const promise = fetcher(apiUri, userId);
 
     promise.then((data) => {
       setResult((cur) => ({
@@ -54,7 +55,7 @@ export function useAuthorizedFetch(apiPath, fetcher) {
         loading: false,
       }));
     });
-  }, [apiPath, fetcher, loggedIn, userId]);
+  }, [apiUri, fetcher, loggedIn, userId]);
 
   useEffect(() => {
     fetch();
@@ -65,7 +66,7 @@ export function useAuthorizedFetch(apiPath, fetcher) {
       ...result,
       revalidate: fetch,
     }),
-    [fetch, result],
+    [fetch, result]
   );
 
   return res;

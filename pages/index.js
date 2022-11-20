@@ -1,7 +1,6 @@
 import Error from "next/error";
 import { Header } from "../src/client/foundation/components/navs/Header/Header";
 import { Top } from "../src/client/foundation/pages/Top";
-import { jsonFetcher } from "../src/client/foundation/utils/HttpUtils";
 import { handleErrorToStatusCode } from "../src/errors";
 import { getHero } from "./api/hero";
 import { getRaces } from "./api/races";

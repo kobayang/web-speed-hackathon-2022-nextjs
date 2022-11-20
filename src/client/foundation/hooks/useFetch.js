@@ -15,6 +15,8 @@ import { useEffect, useState } from "react";
  * @returns {ReturnValues<T>}
  */
 export function useFetch(apiPath, fetcher) {
+  const apiUri = `${process.env.API_HOST}${apiPath}`;
+
   const [result, setResult] = useState({
     data: null,
     error: null,
@@ -28,7 +30,7 @@ export function useFetch(apiPath, fetcher) {
       loading: true,
     }));
 
-    const promise = fetcher(apiPath);
+    const promise = fetcher(apiUri);
 
     promise.then((data) => {
       setResult((cur) => ({
@@ -45,7 +47,7 @@ export function useFetch(apiPath, fetcher) {
         loading: false,
       }));
     });
-  }, [apiPath, fetcher]);
+  }, [apiUri, fetcher]);
 
   return result;
 }
