@@ -26,7 +26,7 @@ export const getStaticPaths = async () => {
 export async function getStaticProps(context) {
   try {
     const raceData = await getRaces();
-    return { props: { raceData, date: context.params.date }, revalidate: 10 };
+    return { props: { raceData, date: context.params.dateId }, revalidate: 10 };
   } catch (error) {
     console.log(error);
     return { props: { statusCode: 500 } };
