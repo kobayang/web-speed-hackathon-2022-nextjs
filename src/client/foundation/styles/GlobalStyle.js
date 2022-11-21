@@ -65,7 +65,7 @@ export const GlobalStyle = createGlobalStyle`
   body {
     color: ${Color.mono[900]};
     background: ${Color.mono[100]};
-    font-family: sans-serif;
+    font-family: Hiragino Kaku Gothic ProN, sans-serif;
   }
 
   a {

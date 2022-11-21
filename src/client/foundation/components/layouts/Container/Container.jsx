@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { BreakPoint, Space } from "../../../styles/variables";
 
 const Wrapper = styled.div`
+  position: relative;
   margin-left: auto;
   margin-right: auto;
   padding-left: ${Space * 2}px;

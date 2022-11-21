@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
@@ -32,17 +33,27 @@ export const useImageSize = ({ calc, height: initialHeight, width }) => {
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ calc, height: _height, src, width: _width }) => {
-  const { height, ref, width } = useImageSize({
-    calc,
-    height: _height,
-    src,
-    width: _width,
-  });
-  return <Img ref={ref} src={src} style={{ height, width }} />;
+export const TrimmedImage = ({ maxWidth, height, src, width }) => {
+  if (maxWidth) {
+    return (
+      <Wrapper $paddingTop={(height / width) * 100} style={{ maxWidth, width }}>
+        <Img src={src} alt="" fill />
+      </Wrapper>
+    );
+  }
+  return <Img src={src} width={width} height={height} />;
 };
 
-const Img = styled.img`
+const Wrapper = styled.div`
+  position: relative;
+  overflow: hidden;
+  &:before {
+    content: "";
+    display: block;
+    padding-top: ${(p) => p.$paddingTop}%;
+  }
+`;
+
+const Img = styled(Image)`
   object-fit: cover;
-  max-width: 100%;
 `;

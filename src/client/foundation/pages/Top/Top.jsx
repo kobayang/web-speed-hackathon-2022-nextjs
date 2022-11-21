@@ -24,6 +24,7 @@ import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { HeroImage } from "./internal/HeroImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
+import { TrimmedImage } from "../../components/media/TrimmedImage";
 
 const ChargeDialog = lazy(() => import("./internal/ChargeDialog/ChargeDialog"));
 
@@ -155,7 +156,12 @@ export const Top = ({ raceData, imageUrl }) => {
     <>
       <main>
         <Container>
-          <HeroImage url={"/assets/images/hero.webp"} />
+          <TrimmedImage
+            width={1024}
+            height={735}
+            maxWidth={"100%"}
+            src={"/assets/images/hero.webp"}
+          />
           <Spacer mt={Space * 2} />
           {userData && (
             <Stack
