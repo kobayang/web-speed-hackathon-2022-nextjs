@@ -116,8 +116,8 @@ const getYYYYMMDD = (d) => {
 };
 
 /** @type {React.VFC} */
-export const Top = ({ raceData, imageUrl }) => {
-  const { date = getYYYYMMDD(new Date()) } = useRouter().query;
+export const Top = ({ raceData, _date }) => {
+  const date = _date || getYYYYMMDD(new Date());
 
   const chargeDialogRef = useRef(null);
 
