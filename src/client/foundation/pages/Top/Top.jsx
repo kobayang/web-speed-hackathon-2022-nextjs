@@ -116,7 +116,7 @@ const getYYYYMMDD = (d) => {
 };
 
 /** @type {React.VFC} */
-export const Top = ({ raceData, _date }) => {
+export const Top = ({ raceData, date: _date }) => {
   const date = _date || getYYYYMMDD(new Date());
 
   const chargeDialogRef = useRef(null);
