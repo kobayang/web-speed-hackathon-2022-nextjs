@@ -3,7 +3,7 @@ import Cors from "cors";
 
 // CORS のミドルウェアを初期化
 const cors = Cors({
-  methods: ["POST"],
+  methods: ["GET", "POST"],
 });
 
 // 後続の処理を行う前にミドルウェアの実行を待ち、
