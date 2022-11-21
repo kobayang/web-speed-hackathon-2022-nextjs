@@ -50,7 +50,9 @@ export const Header = () => {
   return (
     <Wrapper>
       <NameText>
-        <Link href="/">CyberTicket</Link>
+        <Link prefetch={false} href="/">
+          CyberTicket
+        </Link>
       </NameText>
 
       {loggedIn ? (
