@@ -19,29 +19,29 @@ export default function Component(props) {
   );
 }
 
-// export const getStaticPaths = async () => {
-//   const { races } = await getRaces();
-
-//   const paths = races.flatMap((race) => {
-//     return [
-//       { params: { raceId: race.id, category: "odds" } },
-//       { params: { raceId: race.id, category: "race-card" } },
-//       { params: { raceId: race.id, category: "result" } },
-//     ];
-//   });
-
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// };
-
 export const getStaticPaths = async () => {
+  const { races } = await getRaces();
+
+  const paths = races.flatMap((race) => {
+    return [
+      { params: { raceId: race.id, category: "odds" } },
+      { params: { raceId: race.id, category: "race-card" } },
+      { params: { raceId: race.id, category: "result" } },
+    ];
+  });
+
   return {
-    paths: [],
-    fallback: "blocking",
+    paths,
+    fallback: false,
   };
 };
+
+// export const getStaticPaths = async () => {
+//   return {
+//     paths: [],
+//     fallback: "blocking",
+//   };
+// };
 
 export async function getStaticProps(context) {
   try {
