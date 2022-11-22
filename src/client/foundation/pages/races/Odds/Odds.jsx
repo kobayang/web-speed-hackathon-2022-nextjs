@@ -45,6 +45,7 @@ export const Odds = ({ data }) => {
   const { raceId } = useRouter().query;
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
+  const { data: oddsData } = useFetch(`/api/races/${raceId}/odds`, jsonFetcher);
 
   const handleClickOdds = useCallback(
     /**
@@ -84,48 +85,50 @@ export const Odds = ({ data }) => {
 
           <Spacer mt={Space * 2} />
 
-          <Section>
-            <TabNav>
-              <TabNav.Item to={`/races/${raceId}/race-card`}>
-                出走表
-              </TabNav.Item>
-              <TabNav.Item aria-current to={`/races/${raceId}/odds`}>
-                オッズ
-              </TabNav.Item>
-              <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
-            </TabNav>
+          {oddsData && (
+            <Section>
+              <TabNav>
+                <TabNav.Item to={`/races/${raceId}/race-card`}>
+                  出走表
+                </TabNav.Item>
+                <TabNav.Item aria-current to={`/races/${raceId}/odds`}>
+                  オッズ
+                </TabNav.Item>
+                <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
+              </TabNav>
 
-            <Spacer mt={Space * 4} />
+              <Spacer mt={Space * 4} />
 
-            <Callout $closed={isRaceClosed}>
-              {/* <i className="fas fa-info-circle" /> */}
-              <InfoCircle />
-              {isRaceClosed
-                ? "このレースの投票は締め切られています"
-                : "オッズをクリックすると拳券が購入できます"}
-            </Callout>
+              <Callout $closed={isRaceClosed}>
+                {/* <i className="fas fa-info-circle" /> */}
+                <InfoCircle />
+                {isRaceClosed
+                  ? "このレースの投票は締め切られています"
+                  : "オッズをクリックすると拳券が購入できます"}
+              </Callout>
 
-            <Spacer mt={Space * 4} />
-            <Heading as="h2">オッズ表</Heading>
+              <Spacer mt={Space * 4} />
+              <Heading as="h2">オッズ表</Heading>
 
-            <Spacer mt={Space * 2} />
-            <OddsTable
-              entries={data.entries}
-              isRaceClosed={isRaceClosed}
-              odds={data.trifectaOdds}
-              onClickOdds={handleClickOdds}
-            />
+              <Spacer mt={Space * 2} />
+              <OddsTable
+                entries={data.entries}
+                isRaceClosed={isRaceClosed}
+                odds={oddsData.trifectaOdds}
+                onClickOdds={handleClickOdds}
+              />
 
-            <Spacer mt={Space * 4} />
-            <Heading as="h2">人気順</Heading>
+              <Spacer mt={Space * 4} />
+              <Heading as="h2">人気順</Heading>
 
-            <Spacer mt={Space * 2} />
-            <OddsRankingList
-              isRaceClosed={isRaceClosed}
-              odds={data.trifectaOdds}
-              onClickOdds={handleClickOdds}
-            />
-          </Section>
+              <Spacer mt={Space * 2} />
+              <OddsRankingList
+                isRaceClosed={isRaceClosed}
+                odds={oddsData.trifectaOdds}
+                onClickOdds={handleClickOdds}
+              />
+            </Section>
+          )}
 
           <TicketVendingModal
             ref={modalRef}
@@ -134,7 +137,7 @@ export const Odds = ({ data }) => {
           />
         </Container>
       </main>
-      <Footer />
+      {oddsData && <Footer />}
     </>
   );
 };

@@ -1,9 +1,5 @@
 import Error from "next/error";
-import {
-  getRace,
-  getRaceIncludingOdds,
-} from "../../../src/client/apis/getRace";
-import { getRaces } from "../../../src/client/apis/getRaces";
+import { getRace } from "../../../src/client/apis/getRace";
 import { Header } from "../../../src/client/foundation/components/navs/Header/Header";
 import { Odds } from "../../../src/client/foundation/pages/races/Odds/Odds";
 import { RaceCard } from "../../../src/client/foundation/pages/races/RaceCard/RaceCard";
@@ -23,22 +19,27 @@ export default function Component(props) {
   );
 }
 
+// export const getStaticPaths = async () => {
+//   const { races } = await getRaces();
+
+//   const paths = races.flatMap((race) => {
+//     return [
+//       { params: { raceId: race.id, category: "odds" } },
+//       { params: { raceId: race.id, category: "race-card" } },
+//       { params: { raceId: race.id, category: "result" } },
+//     ];
+//   });
+
+//   return {
+//     paths,
+//     fallback: false,
+//   };
+// };
+
 export const getStaticPaths = async () => {
-  const { races } = await getRaces();
-
-  const paths = races.flatMap((race) => {
-    return [
-      { params: { raceId: race.id, category: "odds" } },
-      { params: { raceId: race.id, category: "race-card" } },
-      { params: { raceId: race.id, category: "result" } },
-    ];
-  });
-
-  console.log(paths);
-
   return {
-    paths,
-    fallback: false,
+    paths: [],
+    fallback: "blocking",
   };
 };
 
@@ -48,8 +49,7 @@ export async function getStaticProps(context) {
     if (!["odds", "race-card", "result"].includes(category)) {
       throw new Error("Invalid category.");
     }
-    const fetcher = category === "odds" ? getRaceIncludingOdds : getRace;
-    const data = await fetcher(context.params.raceId);
+    const data = await getRace(context.params.raceId);
     return { props: { data, category }, revalidate: 60 };
   } catch (error) {
     console.log(error);
