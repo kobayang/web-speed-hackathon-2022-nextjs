@@ -1,5 +1,8 @@
 import Error from "next/error";
-import { getRace } from "../../../src/client/apis/getRace";
+import {
+  getRace,
+  getRaceIncludingOdds,
+} from "../../../src/client/apis/getRace";
 import { getRaces } from "../../../src/client/apis/getRaces";
 import { Header } from "../../../src/client/foundation/components/navs/Header/Header";
 import { Odds } from "../../../src/client/foundation/pages/races/Odds/Odds";
@@ -45,8 +48,9 @@ export async function getStaticProps(context) {
     if (!["odds", "race-card", "result"].includes(category)) {
       throw new Error("Invalid category.");
     }
-    const data = await getRace(context.params.raceId);
-    return { props: { data, category }, revalidate: 10 };
+    const fetcher = category === "odds" ? getRaceIncludingOdds : getRace;
+    const data = await fetcher(context.params.raceId);
+    return { props: { data, category }, revalidate: 60 };
   } catch (error) {
     console.log(error);
     return { props: { statusCode: 500 } };
