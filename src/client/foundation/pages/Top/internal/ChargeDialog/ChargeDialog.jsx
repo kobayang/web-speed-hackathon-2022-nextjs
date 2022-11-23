@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import React, { forwardRef, useCallback, useMemo, useState } from "react";
+import React, { forwardRef, useCallback, useState } from "react";
+import styled, { keyframes } from "styled-components";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -96,9 +96,9 @@ const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </datalist>
 
             {bank != null && (
-              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+              <FadeInDiv animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
                 銀行名: {bank.name}銀行
-              </motion.div>
+              </FadeInDiv>
             )}
 
             <label>
@@ -120,9 +120,9 @@ const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </datalist>
 
             {branch && (
-              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+              <FadeInDiv animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
                 支店名: {branch.name}
-              </motion.div>
+              </FadeInDiv>
             )}
 
             <label>
@@ -161,3 +161,17 @@ const ChargeDialog = forwardRef(({ onComplete }, ref) => {
 ChargeDialog.displayName = "ChargeDialog";
 
 export default ChargeDialog;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const FadeInDiv = styled.div`
+  opacity: 0;
+  animation: 500ms ${fadeIn} forwards linear;
+`;
