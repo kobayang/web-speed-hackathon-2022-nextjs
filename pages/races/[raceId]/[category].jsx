@@ -59,7 +59,7 @@ export async function getStaticProps(context) {
       throw new Error("Invalid category.");
     }
     const data = await getRace(context.params.raceId);
-    return { props: { data, category }, revalidate: 60 };
+    return { props: { data, category } };
   } catch (error) {
     console.log(error);
     return { props: { statusCode: 500 } };
