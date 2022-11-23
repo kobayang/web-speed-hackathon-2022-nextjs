@@ -18,7 +18,7 @@ export default function Component(props) {
 export async function getStaticProps() {
   try {
     const raceData = await getRaces();
-    return { props: { raceData, date: null }, revalidate: 10 };
+    return { props: { raceData, date: null }, revalidate: 60 };
   } catch (error) {
     console.log(error);
     return { props: { statusCode: 500 } };
