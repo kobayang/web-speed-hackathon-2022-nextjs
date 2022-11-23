@@ -1,5 +1,6 @@
 import Error from "next/error";
 import { getRace } from "../../../src/client/apis/getRace";
+import { getRaces } from "../../../src/client/apis/getRaces";
 import { Header } from "../../../src/client/foundation/components/navs/Header/Header";
 import { Odds } from "../../../src/client/foundation/pages/races/Odds/Odds";
 import { RaceCard } from "../../../src/client/foundation/pages/races/RaceCard/RaceCard";
@@ -28,7 +29,7 @@ export const getStaticPaths = async () => {
     };
   }
 
-  const { races } = await getRace();
+  const { races } = await getRaces();
 
   const paths = races.flatMap((race) => {
     return [
