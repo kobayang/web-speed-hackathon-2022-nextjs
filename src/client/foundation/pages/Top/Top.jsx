@@ -1,13 +1,5 @@
-import difference from "lodash-es/difference";
-import slice from "lodash-es/slice";
 import dynamic from "next/dynamic";
-import React, {
-  Suspense,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { Suspense, useCallback, useRef } from "react";
 import styled from "styled-components";
 
 import { Container } from "../../components/layouts/Container";
@@ -16,10 +8,9 @@ import { Stack } from "../../components/layouts/Stack";
 import { Footer } from "../../components/navs/Footer";
 import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
-import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
-import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
+import { authorizedJsonFetcher } from "../../utils/HttpUtils";
 
 import { TrimmedImage } from "../../components/media/TrimmedImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
