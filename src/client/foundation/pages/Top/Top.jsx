@@ -1,14 +1,13 @@
 import difference from "lodash-es/difference";
 import slice from "lodash-es/slice";
+import dynamic from "next/dynamic";
 import React, {
-  lazy,
   Suspense,
   useCallback,
   useEffect,
   useRef,
   useState,
 } from "react";
-import { useRouter } from "next/router";
 import styled from "styled-components";
 
 import { Container } from "../../components/layouts/Container";
@@ -22,11 +21,15 @@ import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
-import { HeroImage } from "./internal/HeroImage";
-import { RecentRaceList } from "./internal/RecentRaceList";
 import { TrimmedImage } from "../../components/media/TrimmedImage";
+import { RecentRaceList } from "./internal/RecentRaceList";
 
-const ChargeDialog = lazy(() => import("./internal/ChargeDialog/ChargeDialog"));
+const ChargeDialog = dynamic(
+  () => import("./internal/ChargeDialog/ChargeDialog"),
+  {
+    suspense: true,
+  }
+);
 
 /**
  * @param {Model.Race[]} races
@@ -149,8 +152,6 @@ export const Top = ({ raceData, date: _date }) => {
             isSameDay(race.startAt, date)
           )
       : [];
-  const todayRacesToShow = useTodayRacesWithAnimation(todayRaces);
-  const isAllRacesDisplayed = todayRacesToShow.length !== todayRaces.length;
 
   return (
     <>
@@ -184,17 +185,17 @@ export const Top = ({ raceData, date: _date }) => {
             <Heading as="h1">本日のレース</Heading>
             {todayRaces.length > 0 && (
               <RecentRaceList>
-                {todayRaces.map((race) => (
+                {todayRaces.map((race, index) => (
                   <RecentRaceList.Item
                     key={race.id}
                     race={race}
-                    visible={todayRacesToShow.includes(race)}
+                    index={index}
                   />
                 ))}
               </RecentRaceList>
             )}
           </section>
-          <Suspense fallback={<div></div>}>
+          <Suspense fallback={null}>
             <ChargeDialog
               ref={chargeDialogRef}
               onComplete={handleCompleteCharge}
@@ -202,7 +203,7 @@ export const Top = ({ raceData, date: _date }) => {
           </Suspense>
         </Container>
       </main>
-      {!isAllRacesDisplayed && <Footer />}
+      <Footer />
     </>
   );
 };

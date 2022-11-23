@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 import { LinkButton } from "../../../../components/buttons/LinkButton";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { TrimmedImage } from "../../../../components/media/TrimmedImage";
-import { easeOutCubic, useAnimation } from "../../../../hooks/useAnimation";
 import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
 import { formatCloseAt } from "../../../../utils/DateUtils";
 import { convertJpgToWebp } from "../../../../utils/convertJpgToWebp";
@@ -18,12 +17,26 @@ export const RecentRaceList = ({ children }) => {
   );
 };
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
 const ItemWrapper = styled.li`
-  display: ${({ $visible }) => (!$visible ? "none" : "block")};
   background: ${Color.mono[0]};
   border-radius: ${Radius.MEDIUM};
   opacity: ${({ $opacity }) => $opacity};
   padding: ${Space * 3}px;
+  opacity: 0;
+  ${({ $index }) =>
+    css`
+      animation: 100ms ${fadeIn} forwards cubic-bezier(0.2, 0.6, 0.35, 1);
+      animation-delay: ${$index * 100}ms;
+    `};
 `;
 
 const RaceButton = styled(LinkButton)`
@@ -48,7 +61,7 @@ const RaceTitle = styled.h2`
  */
 
 /** @type {React.VFC<ItemProps>} */
-const Item = ({ race, visible }) => {
+const Item = ({ race, index }) => {
   const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
 
   // 締切はリアルタイムで表示したい
@@ -62,29 +75,8 @@ const Item = ({ race, visible }) => {
     };
   }, [race.closeAt]);
 
-  const {
-    abortAnimation,
-    resetAnimation,
-    startAnimation,
-    value: opacity,
-  } = useAnimation({
-    duration: 500,
-    end: 1,
-    start: 0,
-    timingFunction: easeOutCubic,
-  });
-
-  useEffect(() => {
-    resetAnimation();
-    startAnimation();
-
-    return () => {
-      abortAnimation();
-    };
-  }, [race.id, startAnimation, abortAnimation, resetAnimation]);
-
   return (
-    <ItemWrapper $opacity={opacity} $visible={visible}>
+    <ItemWrapper $index={index}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>
@@ -107,4 +99,4 @@ const Item = ({ race, visible }) => {
     </ItemWrapper>
   );
 };
-RecentRaceList.Item = Item;
+RecentRaceList.Item = React.memo(Item);
