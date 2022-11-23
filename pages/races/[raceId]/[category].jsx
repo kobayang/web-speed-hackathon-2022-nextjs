@@ -20,6 +20,14 @@ export default function Component(props) {
 }
 
 export const getStaticPaths = async () => {
+  // For build, do not cache.
+  if (process.env.NEXT_PUBLIC_LOCAL_BUILD) {
+    return {
+      paths: [],
+      fallback: "blocking",
+    };
+  }
+
   const { races } = await getRaces();
 
   const paths = races.flatMap((race) => {
