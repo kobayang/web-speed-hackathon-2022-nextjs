@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
@@ -19,7 +19,8 @@ const CHARGE = "charge";
  */
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
-const ChargeDialog = forwardRef(({ onComplete }, ref) => {
+const ChargeDialog = ({ onComplete, onClose }) => {
+  const ref = useRef(null);
   const { data } = useFetch("/api/bankList", jsonFetcher, true);
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
@@ -59,15 +60,30 @@ const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     async (e) => {
       if (e.currentTarget.returnValue === CANCEL) {
         clearForm();
+        onClose();
         return;
       }
 
       await charge({ accountNo, amount, bankCode, branchCode });
       clearForm();
       onComplete();
+      onClose();
     },
-    [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm]
+    [
+      charge,
+      accountNo,
+      amount,
+      bankCode,
+      branchCode,
+      clearForm,
+      onComplete,
+      onClose,
+    ]
   );
+
+  useEffect(() => {
+    ref.current.showModal();
+  }, []);
 
   const bank = data?.zenginCode[bankCode];
   const branch = bank?.branches[branchCode];
@@ -156,7 +172,7 @@ const ChargeDialog = forwardRef(({ onComplete }, ref) => {
       </section>
     </Dialog>
   );
-});
+};
 
 ChargeDialog.displayName = "ChargeDialog";
 
