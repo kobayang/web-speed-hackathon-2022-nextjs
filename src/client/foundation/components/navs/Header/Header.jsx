@@ -50,7 +50,7 @@ export const Header = () => {
   return (
     <Wrapper>
       <NameText>
-        <Link prefetch={true} href="/">
+        <Link prefetch={false} href="/">
           CyberTicket
         </Link>
       </NameText>
