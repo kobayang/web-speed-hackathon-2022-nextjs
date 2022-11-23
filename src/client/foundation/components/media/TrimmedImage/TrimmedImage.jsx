@@ -14,14 +14,7 @@ export const TrimmedImage = ({ maxWidth, height, src, width }) => {
   if (maxWidth) {
     return (
       <Wrapper $paddingTop={(height / width) * 100} style={{ maxWidth, width }}>
-        <Img
-          quality={10}
-          src={src}
-          alt=""
-          fill
-          loading="lazy"
-          priority={true}
-        />
+        <Img quality={10} src={src} alt="" fill priority={true} />
       </Wrapper>
     );
   }
