@@ -1,5 +1,6 @@
 import Error from "next/error";
 import { getRace } from "../../../src/client/apis/getRace";
+import { getRaces } from "../../../src/client/apis/getRaces";
 import { Header } from "../../../src/client/foundation/components/navs/Header/Header";
 import { Odds } from "../../../src/client/foundation/pages/races/Odds/Odds";
 import { RaceCard } from "../../../src/client/foundation/pages/races/RaceCard/RaceCard";
@@ -20,6 +21,14 @@ export default function Component(props) {
 }
 
 export const getStaticPaths = async () => {
+  // For build, do not cache.
+  if (process.env.NEXT_PUBLIC_LOCAL_BUILD) {
+    return {
+      paths: [],
+      fallback: "blocking",
+    };
+  }
+
   const { races } = await getRaces();
 
   const paths = races.flatMap((race) => {

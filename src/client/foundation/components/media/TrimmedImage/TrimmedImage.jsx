@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 /**
@@ -14,11 +14,27 @@ export const TrimmedImage = ({ maxWidth, height, src, width }) => {
   if (maxWidth) {
     return (
       <Wrapper $paddingTop={(height / width) * 100} style={{ maxWidth, width }}>
-        <Img src={src} alt="" fill loading="lazy" />
+        <Img
+          quality={10}
+          src={src}
+          alt=""
+          fill
+          loading="lazy"
+          priority={true}
+        />
       </Wrapper>
     );
   }
-  return <Img src={src} width={width} height={height} loading="lazy" />;
+  return (
+    <Img
+      src={src}
+      width={width}
+      height={height}
+      alt=""
+      loading="lazy"
+      quality={10}
+    />
+  );
 };
 
 const Wrapper = styled.div`
