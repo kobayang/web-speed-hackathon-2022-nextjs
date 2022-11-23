@@ -15,12 +15,7 @@ import { authorizedJsonFetcher } from "../../utils/HttpUtils";
 import { TrimmedImage } from "../../components/media/TrimmedImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
-const ChargeDialog = dynamic(
-  () => import("./internal/ChargeDialog/ChargeDialog"),
-  {
-    suspense: true,
-  }
-);
+import ChargeDialog from "./internal/ChargeDialog/ChargeDialog";
 
 const getYYYYMMDD = (d) => {
   const date = new Date(d);
@@ -106,12 +101,10 @@ export const Top = ({ raceData, date: _date }) => {
               </RecentRaceList>
             )}
           </section>
-          <Suspense fallback={null}>
-            <ChargeDialog
-              ref={chargeDialogRef}
-              onComplete={handleCompleteCharge}
-            />
-          </Suspense>
+          <ChargeDialog
+            ref={chargeDialogRef}
+            onComplete={handleCompleteCharge}
+          />
         </Container>
       </main>
       <Footer />

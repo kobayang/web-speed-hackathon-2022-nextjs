@@ -1,13 +1,14 @@
 import { motion } from "framer-motion";
 import React, { forwardRef, useCallback, useMemo, useState } from "react";
-import zenginCode from "zengin-code";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { Heading } from "../../../../components/typographies/Heading";
+import { useFetch } from "../../../../hooks/useFetch";
 import { useMutation } from "../../../../hooks/useMutation";
 import { Space } from "../../../../styles/variables";
+import { jsonFetcher } from "../../../../utils/HttpUtils";
 
 const CANCEL = "cancel";
 const CHARGE = "charge";
@@ -19,6 +20,7 @@ const CHARGE = "charge";
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
 const ChargeDialog = forwardRef(({ onComplete }, ref) => {
+  const { data } = useFetch("/api/bankList", jsonFetcher, true);
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");
@@ -67,16 +69,7 @@ const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm]
   );
 
-  const bankList = useMemo(
-    () =>
-      Object.entries(zenginCode).map(([code, { name }]) => ({
-        code,
-        name,
-      })),
-    []
-  );
-
-  const bank = zenginCode[bankCode];
+  const bank = data?.zenginCode[bankCode];
   const branch = bank?.branches[branchCode];
 
   return (
@@ -97,7 +90,7 @@ const ChargeDialog = forwardRef(({ onComplete }, ref) => {
             </label>
 
             <datalist id="ChargeDialog-bank-list">
-              {bankList.map(({ code, name }) => (
+              {data?.bankList.map(({ code, name }) => (
                 <option key={code} value={code}>{`${name} (${code})`}</option>
               ))}
             </datalist>

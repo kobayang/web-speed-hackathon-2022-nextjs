@@ -14,8 +14,10 @@ import { useEffect, useState } from "react";
  * @param {(apiPath: string) => Promise<T>} fetcher
  * @returns {ReturnValues<T>}
  */
-export function useFetch(apiPath, fetcher) {
-  const apiUri = `${process.env.NEXT_PUBLIC_API_HOST}${apiPath}`;
+export function useFetch(apiPath, fetcher, useOwn = false) {
+  const apiUri = useOwn
+    ? apiPath
+    : `${process.env.NEXT_PUBLIC_API_HOST}${apiPath}`;
 
   const [result, setResult] = useState({
     data: null,
