@@ -65,7 +65,7 @@ export const Footer = () => {
       </List>
 
       <NameText>
-        <Link prefetch={false} href="/">
+        <Link prefetch={true} href="/">
           CyberTicket
         </Link>
       </NameText>

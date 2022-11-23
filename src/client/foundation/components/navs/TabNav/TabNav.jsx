@@ -45,7 +45,7 @@ const Item = ({ "aria-current": ariaCurrent, children, to, ...rest }) => {
           {children}
         </a>
       ) : (
-        <Link prefetch={false} aria-current={ariaCurrent} href={to} {...rest}>
+        <Link prefetch={true} aria-current={ariaCurrent} href={to} {...rest}>
           {children}
         </Link>
       )}
