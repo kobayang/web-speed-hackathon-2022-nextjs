@@ -18,7 +18,7 @@ const CHARGE = "charge";
  */
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
-const ChargeDialog = forwardRef(({ onComplete }, ref) => {
+const ChargeDialog = forwardRef(({ open, onComplete }, ref) => {
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");
@@ -80,7 +80,7 @@ const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   const branch = bank?.branches[branchCode];
 
   return (
-    <Dialog ref={ref} onClose={handleCloseDialog}>
+    <Dialog open={open} ref={ref} onClose={handleCloseDialog}>
       <section>
         <Heading as="h1">チャージ</Heading>
 
