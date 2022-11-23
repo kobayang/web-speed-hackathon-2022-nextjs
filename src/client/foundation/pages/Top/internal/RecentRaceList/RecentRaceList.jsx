@@ -62,25 +62,12 @@ const RaceTitle = styled.h2`
 
 /** @type {React.VFC<ItemProps>} */
 const Item = ({ race, index }) => {
-  const [closeAtText, setCloseAtText] = useState(formatCloseAt(race.closeAt));
-
-  // 締切はリアルタイムで表示したい
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCloseAtText(formatCloseAt(race.closeAt));
-    }, 0);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, [race.closeAt]);
-
   return (
     <ItemWrapper $delay={index * 100}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>
-          <p>{closeAtText}</p>
+          <p>{formatCloseAt(race.closeAt)}</p>
         </Stack>
 
         <Spacer mr={Space * 2} />
