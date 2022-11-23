@@ -28,7 +28,7 @@ export const getStaticPaths = async () => {
     };
   }
 
-  const { races } = await getRaces();
+  const { races } = await getRace();
 
   const paths = races.flatMap((race) => {
     return [
