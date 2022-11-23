@@ -18,11 +18,10 @@ const StyledDialog = styled.dialog`
  */
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
-export const Dialog = forwardRef(({ children, onClose, open }, ref) => {
+export const Dialog = forwardRef(({ children, onClose }, ref) => {
   return (
     <StyledDialog ref={ref} onClose={onClose}>
-      {/* Do not render Dialog until open for improving TTI. */}
-      {open !== undefined ? (open ? children : null) : children}
+      {children}
     </StyledDialog>
   );
 });

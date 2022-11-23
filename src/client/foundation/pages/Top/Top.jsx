@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import React, { Suspense, useCallback, useRef, useState } from "react";
+import React, { Suspense, useCallback, useRef } from "react";
 import styled from "styled-components";
 
 import { Container } from "../../components/layouts/Container";
@@ -35,7 +35,6 @@ export const Top = ({ raceData, date: _date }) => {
   const date = _date || getYYYYMMDD(new Date());
 
   const chargeDialogRef = useRef(null);
-  const [open, setOpen] = useState(false);
 
   const { data: userData, revalidate } = useAuthorizedFetch(
     "/api/users/me",
@@ -46,13 +45,11 @@ export const Top = ({ raceData, date: _date }) => {
     if (chargeDialogRef.current === null) {
       return;
     }
-    setOpen(true);
     chargeDialogRef.current.showModal();
   }, []);
 
   const handleCompleteCharge = useCallback(() => {
     revalidate();
-    setOpen(false);
   }, [revalidate]);
 
   const todayRaces =
@@ -111,7 +108,6 @@ export const Top = ({ raceData, date: _date }) => {
           </section>
           <Suspense fallback={null}>
             <ChargeDialog
-              open={open}
               ref={chargeDialogRef}
               onComplete={handleCompleteCharge}
             />
