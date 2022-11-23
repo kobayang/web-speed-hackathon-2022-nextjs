@@ -1,13 +1,5 @@
-import difference from "lodash-es/difference";
-import slice from "lodash-es/slice";
 import dynamic from "next/dynamic";
-import React, {
-  Suspense,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { Suspense, useCallback, useRef, useState } from "react";
 import styled from "styled-components";
 
 import { Container } from "../../components/layouts/Container";
@@ -16,10 +8,9 @@ import { Stack } from "../../components/layouts/Stack";
 import { Footer } from "../../components/navs/Footer";
 import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
-import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
-import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
+import { authorizedJsonFetcher } from "../../utils/HttpUtils";
 
 import { TrimmedImage } from "../../components/media/TrimmedImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
@@ -30,85 +21,6 @@ const ChargeDialog = dynamic(
     suspense: true,
   }
 );
-
-/**
- * @param {Model.Race[]} races
- * @returns {Model.Race[]}
- */
-function useTodayRacesWithAnimation(races) {
-  const [isRacesUpdate, setIsRacesUpdate] = useState(true);
-  const [racesToShow, setRacesToShow] = useState(races);
-  const numberOfRacesToShow = useRef(0);
-  const prevRaces = useRef(races);
-  const timer = useRef(null);
-
-  useEffect(() => {
-    const isRacesUpdate =
-      difference(
-        races.map((e) => e.id),
-        prevRaces.current.map((e) => e.id)
-      ).length !== 0;
-
-    prevRaces.current = races;
-    setIsRacesUpdate(isRacesUpdate);
-  }, [races]);
-
-  useEffect(() => {
-    if (!isRacesUpdate) {
-      return;
-    }
-    // 視覚効果 off のときはアニメーションしない
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setRacesToShow(races);
-      return;
-    }
-
-    numberOfRacesToShow.current = 0;
-    if (timer.current !== null) {
-      clearInterval(timer.current);
-    }
-
-    timer.current = setInterval(() => {
-      if (numberOfRacesToShow.current >= races.length) {
-        clearInterval(timer.current);
-        return;
-      }
-
-      numberOfRacesToShow.current++;
-      setRacesToShow(slice(races, 0, numberOfRacesToShow.current));
-    }, 100);
-  }, [isRacesUpdate, races]);
-
-  useEffect(() => {
-    return () => {
-      if (timer.current !== null) {
-        clearInterval(timer.current);
-      }
-    };
-  }, []);
-
-  return racesToShow;
-}
-
-/**
- * @param {Model.Race[]} todayRaces
- * @returns {string | null}
- */
-function useHeroImage(todayRaces) {
-  const firstRaceId = todayRaces[0]?.id;
-  const url =
-    firstRaceId !== undefined
-      ? `/api/hero?firstRaceId=${firstRaceId}`
-      : "/api/hero";
-  const { data } = useFetch(url, jsonFetcher);
-
-  if (firstRaceId === undefined || data === null) {
-    return null;
-  }
-
-  const imageUrl = `${data.url}?${data.hash}`;
-  return imageUrl;
-}
 
 const getYYYYMMDD = (d) => {
   const date = new Date(d);
@@ -123,6 +35,7 @@ export const Top = ({ raceData, date: _date }) => {
   const date = _date || getYYYYMMDD(new Date());
 
   const chargeDialogRef = useRef(null);
+  const [initializeModal, setInitializeModal] = useState(false);
 
   const { data: userData, revalidate } = useAuthorizedFetch(
     "/api/users/me",
@@ -134,6 +47,8 @@ export const Top = ({ raceData, date: _date }) => {
       return;
     }
 
+    // Do not render Dialog until charge button is clicked.
+    setInitializeModal(true);
     chargeDialogRef.current.showModal();
   }, []);
 
@@ -197,6 +112,7 @@ export const Top = ({ raceData, date: _date }) => {
           </section>
           <Suspense fallback={null}>
             <ChargeDialog
+              initialized={initializeModal}
               ref={chargeDialogRef}
               onComplete={handleCompleteCharge}
             />
