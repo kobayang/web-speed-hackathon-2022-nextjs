@@ -32,10 +32,10 @@ const ItemWrapper = styled.li`
   opacity: ${({ $opacity }) => $opacity};
   padding: ${Space * 3}px;
   opacity: 0;
-  ${({ $index }) =>
+  animation: 100ms ${fadeIn} forwards cubic-bezier(0.2, 0.6, 0.35, 1);
+  ${({ $delay }) =>
     css`
-      animation: 100ms ${fadeIn} forwards cubic-bezier(0.2, 0.6, 0.35, 1);
-      animation-delay: ${$index * 100}ms;
+      animation-delay: ${$delay}ms;
     `};
 `;
 
@@ -76,7 +76,7 @@ const Item = ({ race, index }) => {
   }, [race.closeAt]);
 
   return (
-    <ItemWrapper $index={index}>
+    <ItemWrapper $delay={index * 100}>
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
           <RaceTitle>{race.name}</RaceTitle>
