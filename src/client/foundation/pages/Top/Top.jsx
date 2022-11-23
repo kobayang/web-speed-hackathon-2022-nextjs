@@ -1,5 +1,13 @@
+import difference from "lodash-es/difference";
+import slice from "lodash-es/slice";
 import dynamic from "next/dynamic";
-import React, { Suspense, useCallback, useRef, useState } from "react";
+import React, {
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import styled from "styled-components";
 
 import { Container } from "../../components/layouts/Container";
@@ -8,9 +16,10 @@ import { Stack } from "../../components/layouts/Stack";
 import { Footer } from "../../components/navs/Footer";
 import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
+import { useFetch } from "../../hooks/useFetch";
 import { Color, Radius, Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
-import { authorizedJsonFetcher } from "../../utils/HttpUtils";
+import { authorizedJsonFetcher, jsonFetcher } from "../../utils/HttpUtils";
 
 import { TrimmedImage } from "../../components/media/TrimmedImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
@@ -35,7 +44,6 @@ export const Top = ({ raceData, date: _date }) => {
   const date = _date || getYYYYMMDD(new Date());
 
   const chargeDialogRef = useRef(null);
-  const [initializeModal, setInitializeModal] = useState(false);
 
   const { data: userData, revalidate } = useAuthorizedFetch(
     "/api/users/me",
@@ -46,9 +54,6 @@ export const Top = ({ raceData, date: _date }) => {
     if (chargeDialogRef.current === null) {
       return;
     }
-
-    // Do not render Dialog until charge button is clicked.
-    setInitializeModal(true);
     chargeDialogRef.current.showModal();
   }, []);
 
@@ -112,7 +117,6 @@ export const Top = ({ raceData, date: _date }) => {
           </section>
           <Suspense fallback={null}>
             <ChargeDialog
-              initialized={initializeModal}
               ref={chargeDialogRef}
               onComplete={handleCompleteCharge}
             />

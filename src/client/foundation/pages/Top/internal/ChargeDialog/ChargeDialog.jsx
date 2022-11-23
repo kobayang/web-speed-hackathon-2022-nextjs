@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { forwardRef, useCallback, useState } from "react";
+import React, { forwardRef, useCallback, useMemo, useState } from "react";
 import zenginCode from "zengin-code";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
@@ -12,18 +12,13 @@ import { Space } from "../../../../styles/variables";
 const CANCEL = "cancel";
 const CHARGE = "charge";
 
-const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
-  code,
-  name,
-}));
-
 /**
  * @typedef Props
  * @type {object}
  */
 
 /** @type {React.ForwardRefExoticComponent<{Props>} */
-const ChargeDialog = forwardRef(({ initialized, onComplete }, ref) => {
+const ChargeDialog = forwardRef(({ onComplete }, ref) => {
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");
@@ -72,93 +67,100 @@ const ChargeDialog = forwardRef(({ initialized, onComplete }, ref) => {
     [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm]
   );
 
+  const bankList = useMemo(
+    () =>
+      Object.entries(zenginCode).map(([code, { name }]) => ({
+        code,
+        name,
+      })),
+    []
+  );
+
   const bank = zenginCode[bankCode];
   const branch = bank?.branches[branchCode];
 
   return (
     <Dialog ref={ref} onClose={handleCloseDialog}>
-      {initialized && (
-        <section>
-          <Heading as="h1">チャージ</Heading>
+      <section>
+        <Heading as="h1">チャージ</Heading>
 
-          <Spacer mt={Space * 2} />
-          <form method="dialog">
-            <Stack gap={Space * 1}>
-              <label>
-                銀行コード
-                <input
-                  list="ChargeDialog-bank-list"
-                  onChange={handleCodeChange}
-                  value={bankCode}
-                />
-              </label>
+        <Spacer mt={Space * 2} />
+        <form method="dialog">
+          <Stack gap={Space * 1}>
+            <label>
+              銀行コード
+              <input
+                list="ChargeDialog-bank-list"
+                onChange={handleCodeChange}
+                value={bankCode}
+              />
+            </label>
 
-              <datalist id="ChargeDialog-bank-list">
-                {bankList.map(({ code, name }) => (
-                  <option key={code} value={code}>{`${name} (${code})`}</option>
+            <datalist id="ChargeDialog-bank-list">
+              {bankList.map(({ code, name }) => (
+                <option key={code} value={code}>{`${name} (${code})`}</option>
+              ))}
+            </datalist>
+
+            {bank != null && (
+              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+                銀行名: {bank.name}銀行
+              </motion.div>
+            )}
+
+            <label>
+              支店コード
+              <input
+                list="ChargeDialog-branch-list"
+                onChange={handleBranchChange}
+                value={branchCode}
+              />
+            </label>
+
+            <datalist id="ChargeDialog-branch-list">
+              {bank != null &&
+                Object.values(bank.branches).map((branch) => (
+                  <option key={branch.code} value={branch.code}>
+                    {branch.name}
+                  </option>
                 ))}
-              </datalist>
+            </datalist>
 
-              {bank != null && (
-                <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
-                  銀行名: {bank.name}銀行
-                </motion.div>
-              )}
+            {branch && (
+              <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
+                支店名: {branch.name}
+              </motion.div>
+            )}
 
-              <label>
-                支店コード
-                <input
-                  list="ChargeDialog-branch-list"
-                  onChange={handleBranchChange}
-                  value={branchCode}
-                />
-              </label>
+            <label>
+              口座番号
+              <input
+                onChange={handleAccountNoChange}
+                type="text"
+                value={accountNo}
+              />
+            </label>
 
-              <datalist id="ChargeDialog-branch-list">
-                {bank != null &&
-                  Object.values(bank.branches).map((branch) => (
-                    <option key={branch.code} value={branch.code}>
-                      {branch.name}
-                    </option>
-                  ))}
-              </datalist>
+            <label>
+              金額
+              <input
+                min={0}
+                onChange={handleAmountChange}
+                type="number"
+                value={amount}
+              />
+              Yeen
+            </label>
 
-              {branch && (
-                <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
-                  支店名: {branch.name}
-                </motion.div>
-              )}
+            <div>※実在する通貨がチャージされることはありません</div>
 
-              <label>
-                口座番号
-                <input
-                  onChange={handleAccountNoChange}
-                  type="text"
-                  value={accountNo}
-                />
-              </label>
-
-              <label>
-                金額
-                <input
-                  min={0}
-                  onChange={handleAmountChange}
-                  type="number"
-                  value={amount}
-                />
-                Yeen
-              </label>
-
-              <div>※実在する通貨がチャージされることはありません</div>
-
-              <menu>
-                <button value={CANCEL}>キャンセル</button>
-                <button value={CHARGE}>チャージ</button>
-              </menu>
-            </Stack>
-          </form>
-        </section>
-      )}
+            <menu>
+              <button value={CANCEL}>キャンセル</button>
+              <button value={CHARGE}>チャージ</button>
+            </menu>
+          </Stack>
+        </form>
+      </section>
     </Dialog>
   );
 });
