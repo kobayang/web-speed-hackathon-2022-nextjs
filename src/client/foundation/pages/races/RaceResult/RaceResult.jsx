@@ -1,36 +1,26 @@
+"use client";
+
 import React from "react";
-import { useRouter } from "next/router";
-import styled from "styled-components";
 
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
-import { Footer } from "../../../components/navs/Footer";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../../hooks/useAuthorizedFetch";
-import { useFetch } from "../../../hooks/useFetch";
-import { Color, Radius, Space } from "../../../styles/variables";
-import { formatTime } from "../../../utils/DateUtils";
-import { authorizedJsonFetcher, jsonFetcher } from "../../../utils/HttpUtils";
+import { Space } from "../../../styles/variables";
 import { convertJpgToWebp } from "../../../utils/convertJpgToWebp";
+import { formatTime } from "../../../utils/DateUtils";
+import { authorizedJsonFetcher } from "../../../utils/HttpUtils";
 
 import { BettingTicketList } from "./internal/BettingTicketList";
 import { RaceResultSection } from "./internal/RaceResultSection";
 
-const LiveBadge = styled.span`
-  background: #ff0000;
-  border-radius: 4px;
-  color: #fff;
-  font-weight: bold;
-  padding: ${Space * 1}px;
-  text-transform: uppercase;
-`;
+import styles from "./RaceResult.module.css";
 
 /** @type {React.VFC} */
-export const RaceResult = ({ data }) => {
-  const { raceId } = useRouter().query;
+export const RaceResult = ({ data, raceId }) => {
   const { data: ticketData } = useAuthorizedFetch(
     `/api/races/${raceId}/betting-tickets`,
     authorizedJsonFetcher
@@ -49,7 +39,7 @@ export const RaceResult = ({ data }) => {
           <Spacer mt={Space * 2} />
 
           <Section dark shrink>
-            <LiveBadge>Live</LiveBadge>
+            <span className={styles.liveBadge}>Live</span>
             <Spacer mt={Space * 2} />
             <TrimmedImage
               maxWidth={"calc(100vw - 32px)"}
@@ -91,7 +81,6 @@ export const RaceResult = ({ data }) => {
           </Section>
         </Container>
       </main>
-      <Footer />
     </>
   );
 };
