@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Top } from "../src/client/foundation/pages/Top/Top";
 import { isSameDay } from "../src/client/foundation/utils/DateUtils";
 
@@ -13,20 +14,19 @@ async function getRaces() {
   return res.json();
 }
 
+const date = new Date();
+
 export default async function Page() {
-  const date = new Date();
   const raceData = await getRaces();
 
   const todayRaces =
     raceData != null
       ? [...raceData.races]
           .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
+            (a, b) =>
               new Date(a.startAt).getTime - new Date(b.startAt).getTime()
           )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date)
-          )
+          .filter((race) => isSameDay(race.startAt, date))
       : [];
 
   return <Top todayRaces={todayRaces} />;

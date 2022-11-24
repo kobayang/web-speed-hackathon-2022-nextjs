@@ -1,15 +1,13 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { Suspense, useCallback, useState } from "react";
 
 import { Container } from "../../components/layouts/Container";
 import { Spacer } from "../../components/layouts/Spacer";
 import { Stack } from "../../components/layouts/Stack";
-import { Footer } from "../../components/navs/Footer";
 import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { Space } from "../../styles/variables";
-import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher } from "../../utils/HttpUtils";
 
 import { TrimmedImage } from "../../components/media/TrimmedImage";
@@ -18,14 +16,6 @@ import { RecentRaceList } from "./internal/RecentRaceList";
 import ChargeDialog from "./internal/ChargeDialog/ChargeDialog";
 
 import styles from "./Top.module.css";
-
-const getYYYYMMDD = (d) => {
-  const date = new Date(d);
-  const yyyy = `${date.getFullYear()}`.padStart(4, "0");
-  const mm = `${date.getMonth() + 1}`.padStart(2, "0");
-  const dd = `${date.getDate()}`.padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
-};
 
 /** @type {React.VFC} */
 export const Top = ({ todayRaces }) => {
@@ -93,7 +83,9 @@ export const Top = ({ todayRaces }) => {
             )}
           </section>
           {open && (
-            <ChargeDialog onComplete={handleCompleteCharge} onClose={close} />
+            <Suspense fallback={null}>
+              <ChargeDialog onComplete={handleCompleteCharge} onClose={close} />
+            </Suspense>
           )}
         </Container>
       </main>
