@@ -18,7 +18,7 @@ export const Header = () => {
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.nameText}>
-        <Link className={styles.nameTextAnchor} prefetch={false} href="/">
+        <Link className={styles.nameTextAnchor} prefetch={true} href="/">
           CyberTicket
         </Link>
       </h1>
