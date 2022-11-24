@@ -1,3 +1,5 @@
+"use client";
+
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
 import styles from "./TicketVendingModal.module.css";
 
@@ -9,7 +11,7 @@ import { Heading } from "../../../../../components/typographies/Heading";
 import { useAuth } from "../../../../../contexts/AuthContext";
 import { useAuthorizedFetch } from "../../../../../hooks/useAuthorizedFetch";
 import { useMutation } from "../../../../../hooks/useMutation";
-import { Color, Space } from "../../../../../styles/variables";
+import { Space } from "../../../../../styles/variables";
 import { authorizedJsonFetcher } from "../../../../../utils/HttpUtils";
 
 const CANCEL = "cancel";

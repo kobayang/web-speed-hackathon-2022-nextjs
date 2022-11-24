@@ -1,9 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import React, { useCallback } from "react";
 import styles from "./Header.module.css";
-import baseButtonStyles from "../../buttons/BaseButton/BaseButton.module.css";
 
-import classnames from "classnames";
 import { useAuth, useRegister } from "../../../contexts/AuthContext";
 
 /** @type {React.VFC} */

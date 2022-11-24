@@ -6,16 +6,16 @@ import styles from "./OddsRankingList.module.css";
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 import { Stack } from "../../../../../components/layouts/Stack";
 import { OddsMarker } from "../OddsMarker";
+import { BuyButton } from "./BuyButton";
 
 /**
  * @typedef Props
  * @property {Model.OddsItem[]} odds
  * @property {boolean} isRaceClosed
- * @property {(odds: Model.OddsItem) => void} onClickOdds
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
+export const OddsRankingList = ({ isRaceClosed, odds }) => {
   const sortedOdds = take(
     sortBy(odds, (item) => item.odds),
     50
@@ -34,16 +34,13 @@ export const OddsRankingList = ({ isRaceClosed, odds, onClickOdds }) => {
               </Stack>
             </div>
           ) : (
-            <button
-              className={styles.buyButton}
-              onClick={() => onClickOdds(item)}
-            >
+            <BuyButton item={item}>
               <Stack horizontal alignItems="center" gap={16}>
                 <div className={styles.rankNo}>{i + 1}.</div>
                 <EntryCombination numbers={item.key} />
                 <OddsMarker as="div" odds={item.odds} />
               </Stack>
-            </button>
+            </BuyButton>
           )}
         </li>
       ))}

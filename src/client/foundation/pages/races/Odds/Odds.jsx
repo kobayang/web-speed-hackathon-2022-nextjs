@@ -1,4 +1,6 @@
-import React, { useCallback, useRef, useState } from "react";
+"use client";
+
+import React, { createContext, useCallback, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import classnames from "classnames";
 import styles from "./Odds.module.css";
@@ -8,7 +10,6 @@ import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
-import { Footer } from "../../../components/navs/Footer";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
@@ -20,9 +21,9 @@ import { convertJpgToWebp } from "../../../utils/convertJpgToWebp";
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
 import { TicketVendingModal } from "./internal/TicketVendingModal";
+import { OddsModalProvider } from "./useOddsModalContext";
 
-export const Odds = ({ data }) => {
-  const { raceId } = useRouter().query;
+export const Odds = ({ data, raceId, isRaceClosed }) => {
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
   const { data: oddsData } = useFetch(`/api/races/${raceId}/odds`, jsonFetcher);
@@ -38,10 +39,8 @@ export const Odds = ({ data }) => {
     []
   );
 
-  const isRaceClosed = isBefore(data.closeAt, new Date());
-
   return (
-    <>
+    <OddsModalProvider value={handleClickOdds}>
       <main>
         <Container>
           <Spacer mt={Space * 2} />
@@ -113,17 +112,13 @@ export const Odds = ({ data }) => {
               </>
             )}
           </Section>
-
-          {oddsData && (
-            <TicketVendingModal
-              ref={modalRef}
-              odds={oddsKeyToBuy}
-              raceId={raceId}
-            />
-          )}
+          <TicketVendingModal
+            ref={modalRef}
+            odds={oddsKeyToBuy}
+            raceId={raceId}
+          />
         </Container>
       </main>
-      {oddsData && <Footer />}
-    </>
+    </OddsModalProvider>
   );
 };
