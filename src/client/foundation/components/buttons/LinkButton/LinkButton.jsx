@@ -7,7 +7,7 @@ export const LinkButton = (props) => {
     <Link
       className={classnames(styles.linkButton, props.className)}
       {...props}
-      prefetch={false}
+      prefetch={true}
     />
   );
 };
