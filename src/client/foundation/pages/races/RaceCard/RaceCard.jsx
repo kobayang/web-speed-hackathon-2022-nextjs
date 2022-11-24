@@ -1,36 +1,22 @@
 import React from "react";
-import { useRouter } from "next/router";
-import styled from "styled-components";
 
 import { Container } from "../../../components/layouts/Container";
 import { Section } from "../../../components/layouts/Section";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
-import { Footer } from "../../../components/navs/Footer";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
-import { useFetch } from "../../../hooks/useFetch";
-import { Color, Radius, Space } from "../../../styles/variables";
-import { formatTime } from "../../../utils/DateUtils";
-import { jsonFetcher } from "../../../utils/HttpUtils";
+import { Space } from "../../../styles/variables";
 import { convertJpgToWebp } from "../../../utils/convertJpgToWebp";
+import { formatTime } from "../../../utils/DateUtils";
 
 import { EntryTable } from "./internal/EntryTable";
 import { PlayerPictureList } from "./internal/PlayerPictureList";
 
-const LiveBadge = styled.span`
-  background: #ff0000;
-  border-radius: 4px;
-  color: #fff;
-  font-weight: bold;
-  padding: ${Space * 1}px;
-  text-transform: uppercase;
-`;
+import styles from "./RaceCard.module.css";
 
 /** @type {React.VFC} */
-export const RaceCard = ({ data }) => {
-  const { raceId } = useRouter().query;
-
+export const RaceCard = ({ raceId, data }) => {
   return (
     <>
       <main>
@@ -44,7 +30,7 @@ export const RaceCard = ({ data }) => {
           <Spacer mt={Space * 2} />
 
           <Section dark shrink>
-            <LiveBadge>Live</LiveBadge>
+            <span className={styles.liveBadge}>Live</span>
             <Spacer mt={Space * 2} />
             <TrimmedImage
               maxWidth={"calc(100vw - 32px)"}
@@ -83,7 +69,6 @@ export const RaceCard = ({ data }) => {
           </Section>
         </Container>
       </main>
-      <Footer />
     </>
   );
 };

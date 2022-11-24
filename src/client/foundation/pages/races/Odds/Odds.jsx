@@ -1,8 +1,7 @@
 "use client";
 
-import React, { createContext, useCallback, useRef, useState } from "react";
-import { useRouter } from "next/router";
 import classnames from "classnames";
+import React, { useCallback, useRef, useState } from "react";
 import styles from "./Odds.module.css";
 
 import { InfoCircle } from "../../../components/icons/Icon";
@@ -14,9 +13,9 @@ import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
 import { Space } from "../../../styles/variables";
-import { formatTime, isBefore } from "../../../utils/DateUtils";
-import { jsonFetcher } from "../../../utils/HttpUtils";
 import { convertJpgToWebp } from "../../../utils/convertJpgToWebp";
+import { formatTime } from "../../../utils/DateUtils";
+import { jsonFetcher } from "../../../utils/HttpUtils";
 
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";

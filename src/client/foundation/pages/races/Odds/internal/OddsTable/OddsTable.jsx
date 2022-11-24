@@ -26,7 +26,7 @@ const mapKey = (second, third) => `${second}.${third}`;
  */
 
 /** @type {React.VFC<Props>} */
-export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
+export function OddsTable({ entries, isRaceClosed, odds, onClickOdds }) {
   const [firstKey, setFirstKey] = useState(1);
 
   const handleChange = useCallback((e) => {
@@ -119,4 +119,4 @@ export const OddsTable = ({ entries, isRaceClosed, odds, onClickOdds }) => {
       </div>
     </div>
   );
-};
+}

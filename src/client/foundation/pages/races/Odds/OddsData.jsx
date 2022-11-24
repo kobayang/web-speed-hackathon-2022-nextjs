@@ -1,5 +1,6 @@
 import { Spacer } from "../../../components/layouts/Spacer";
 import { Heading } from "../../../components/typographies/Heading";
+import { Space } from "../../../styles/variables";
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
 

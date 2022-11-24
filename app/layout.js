@@ -6,16 +6,16 @@ import { Providers } from "./providers";
 
 export default function RootLayout({ children }) {
   return (
-    <html>
-      <body>
-        <div>
-          <Providers>
+    <Providers>
+      <html>
+        <body>
+          <div>
             <Header />
             <main>{children}</main>
             <Footer />
-          </Providers>
-        </div>
-      </body>
-    </html>
+          </div>
+        </body>
+      </html>
+    </Providers>
   );
 }
