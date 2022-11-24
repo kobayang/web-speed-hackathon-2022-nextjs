@@ -17,7 +17,7 @@ export const Footer = () => {
       </ul>
 
       <h1 className={styles.nameText}>
-        <Link className={styles.nameTextInnerAnchor} prefetch={true} href="/">
+        <Link className={styles.nameTextInnerAnchor} prefetch={false} href="/">
           CyberTicket
         </Link>
       </h1>

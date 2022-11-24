@@ -20,7 +20,7 @@ const Item = ({ "aria-current": ariaCurrent, children, to, ...rest }) => {
       ) : (
         <Link
           className={styles.anchor}
-          prefetch={true}
+          prefetch={false}
           aria-current={ariaCurrent}
           href={to}
           {...rest}
