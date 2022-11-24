@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import zenginCode from "zengin-code";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -9,7 +8,8 @@ import { Stack } from "../../../../components/layouts/Stack";
 import { Heading } from "../../../../components/typographies/Heading";
 import { useMutation } from "../../../../hooks/useMutation";
 import { Space } from "../../../../styles/variables";
-import { DataList } from "./DataList";
+import { useFetch } from "../../../../hooks/useFetch";
+import { jsonFetcher } from "../../../../utils/HttpUtils";
 
 import styles from "./ChargeDialog.module.css";
 
@@ -24,6 +24,7 @@ const CHARGE = "charge";
 /** @type {React.ForwardRefExoticComponent<{Props>} */
 const ChargeDialog = ({ onComplete, onClose }) => {
   const ref = useRef(null);
+  const { data } = useFetch("/api/zengin-code", jsonFetcher, true);
 
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
@@ -88,7 +89,7 @@ const ChargeDialog = ({ onComplete, onClose }) => {
     ref.current.showModal();
   }, []);
 
-  const bank = zenginCode[bankCode];
+  const bank = data?.zenginCode[bankCode];
   const branch = bank?.branches[branchCode];
 
   return (
@@ -108,7 +109,11 @@ const ChargeDialog = ({ onComplete, onClose }) => {
               />
             </label>
 
-            <DataList />
+            <datalist id="ChargeDialog-bank-list">
+              {data?.bankList.map(({ code, name }) => (
+                <option key={code} value={code}>{`${name} (${code})`}</option>
+              ))}
+            </datalist>
 
             {bank != null && (
               <div className={styles.fadeIn}>銀行名: {bank.name}銀行</div>
