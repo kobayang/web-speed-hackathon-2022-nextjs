@@ -1,55 +1,26 @@
 import React from "react";
-import styled from "styled-components";
+import classnames from "classnames";
+import styles from "./EntryTable.module.css";
 
-import { Color, FontSize, Space } from "../../../../../styles/variables";
+const TableHCell = ({ $bold, $align, ...props }) => {
+  return (
+    <th
+      className={classnames(styles.th, styles.theadth)}
+      {...props}
+      style={{ fontWeight: $bold ? "bold" : undefined, textAlign: $align }}
+    />
+  );
+};
 
-const Wrapper = styled.div`
-  overflow-x: auto;
-`;
-
-const Table = styled.table`
-  border-collapse: collapse;
-  border-color: ${Color.mono[800]};
-  border-style: solid;
-  border-width: 2px 0 2px;
-  font-size: ${FontSize.SMALL};
-  min-width: calc(1024px - ${Space * 3}px * 2);
-  text-align: center;
-  width: 100%;
-
-  th,
-  td {
-    border-color: ${Color.mono[800]};
-    border-style: solid;
-    border-width: 1px 1px 1px 0;
-  }
-
-  th {
-    font-weight: normal;
-    padding: 0 ${Space * 1}px;
-  }
-
-  thead tr:first-child th:last-child {
-    border-right-width: 0;
-  }
-
-  td {
-    padding: ${Space * 1}px;
-    &:last-child {
-      border-right-width: 0;
-    }
-  }
-`;
-
-const TableHCell = styled.th`
-  font-weight: ${({ $bold }) => $bold && "bold"};
-  text-align: ${({ $align }) => $align};
-`;
-
-const TableCell = styled.td`
-  font-weight: ${({ $bold }) => $bold && "bold"};
-  text-align: ${({ $align }) => $align};
-`;
+const TableCell = ({ $bold, $align, ...props }) => {
+  return (
+    <td
+      className={classnames(styles.td)}
+      {...props}
+      style={{ fontWeight: $bold ? "bold" : undefined, textAlign: $align }}
+    />
+  );
+};
 
 /**
  * @typedef Props
@@ -59,10 +30,10 @@ const TableCell = styled.td`
 /** @type {React.VFC<Props>} */
 export const EntryTable = ({ entries }) => {
   return (
-    <Wrapper>
-      <Table>
+    <div className={styles.wrapper}>
+      <table className={styles.table}>
         <thead>
-          <tr>
+          <tr className={classnames(styles.theadtr)}>
             <TableHCell rowSpan={2} width="48px">
               番号
             </TableHCell>
@@ -98,7 +69,7 @@ export const EntryTable = ({ entries }) => {
               コメント
             </TableHCell>
           </tr>
-          <tr>
+          <tr className={styles.theadtr}>
             <TableHCell width="64px">グー</TableHCell>
             <TableHCell width="64px">チョキ</TableHCell>
             <TableHCell width="64px">パー</TableHCell>
@@ -129,7 +100,7 @@ export const EntryTable = ({ entries }) => {
             </tr>
           ))}
         </tbody>
-      </Table>
-    </Wrapper>
+      </table>
+    </div>
   );
 };

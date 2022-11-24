@@ -1,0 +1,62 @@
+.scrollWrapper {
+  overflow-x: auto;
+}
+
+.rankLabel {
+  width: 64px;
+}
+
+.table {
+  border-collapse: collapse;
+  border-color: #292524;
+  border-style: solid;
+  border-width: 2px 0 2px;
+  font-size: 0.875rem;
+  height: 100%;
+  min-width: calc(1024px - 24px * 2);
+  table-layout: fixed;
+  text-align: center;
+  width: 100%;
+}
+
+.th,
+.td {
+  border-color: #292524;
+  border-style: solid;
+  border-width: 1px;
+  height: 100%;
+  padding: 0;
+}
+
+.th {
+  font-weight: normal;
+  padding: 0 8px;
+}
+
+.buyButton {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  padding: 16px;
+  width: 100%;
+}
+.buyButton:disabled {
+  cursor: initial;
+  background: #f5f5f4;
+}
+.buyButton:not(:disabled):hover {
+  background: #e7e5e4;
+}
+
+.inactiveBaseButton {
+  cursor: default;
+  height: 100%;
+  padding: 16px;
+  width: 100%;
+}

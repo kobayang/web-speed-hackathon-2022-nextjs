@@ -1,14 +1,13 @@
-import React, { useCallback, useState } from "react";
-import styled from "styled-components";
+"use client";
+
+import React, { Suspense, useCallback, useState } from "react";
 
 import { Container } from "../../components/layouts/Container";
 import { Spacer } from "../../components/layouts/Spacer";
 import { Stack } from "../../components/layouts/Stack";
-import { Footer } from "../../components/navs/Footer";
 import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
-import { Color, Radius, Space } from "../../styles/variables";
-import { isSameDay } from "../../utils/DateUtils";
+import { Space } from "../../styles/variables";
 import { authorizedJsonFetcher } from "../../utils/HttpUtils";
 
 import { TrimmedImage } from "../../components/media/TrimmedImage";
@@ -16,17 +15,10 @@ import { RecentRaceList } from "./internal/RecentRaceList";
 
 import ChargeDialog from "./internal/ChargeDialog/ChargeDialog";
 
-const getYYYYMMDD = (d) => {
-  const date = new Date(d);
-  const yyyy = `${date.getFullYear()}`.padStart(4, "0");
-  const mm = `${date.getMonth() + 1}`.padStart(2, "0");
-  const dd = `${date.getDate()}`.padStart(2, "0");
-  return `${yyyy}-${mm}-${dd}`;
-};
+import styles from "./Top.module.css";
 
 /** @type {React.VFC} */
-export const Top = ({ raceData, date: _date }) => {
-  const date = _date || getYYYYMMDD(new Date());
+export const Top = ({ todayRaces }) => {
   const [open, setOpen] = useState(false);
 
   const { data: userData, revalidate } = useAuthorizedFetch(
@@ -44,18 +36,6 @@ export const Top = ({ raceData, date: _date }) => {
     revalidate();
   }, [revalidate]);
 
-  const todayRaces =
-    raceData != null
-      ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              new Date(a.startAt).getTime - new Date(b.startAt).getTime()
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date)
-          )
-      : [];
-
   return (
     <>
       <main>
@@ -64,6 +44,7 @@ export const Top = ({ raceData, date: _date }) => {
             width={1024}
             height={735}
             maxWidth={"100%"}
+            priorityClass="main"
             src={"/assets/images/hero.webp"}
           />
           <Spacer mt={Space * 2} />
@@ -78,9 +59,12 @@ export const Top = ({ raceData, date: _date }) => {
                 <p>払戻金: {userData.payoff}Yeen</p>
               </div>
 
-              <ChargeButton onClick={handleClickChargeButton}>
+              <button
+                className={styles.chargeButton}
+                onClick={handleClickChargeButton}
+              >
                 チャージ
-              </ChargeButton>
+              </button>
             </Stack>
           )}
           <Spacer mt={Space * 2} />
@@ -99,22 +83,12 @@ export const Top = ({ raceData, date: _date }) => {
             )}
           </section>
           {open && (
-            <ChargeDialog onComplete={handleCompleteCharge} onClose={close} />
+            <Suspense fallback={null}>
+              <ChargeDialog onComplete={handleCompleteCharge} onClose={close} />
+            </Suspense>
           )}
         </Container>
       </main>
-      <Footer />
     </>
   );
 };
-
-const ChargeButton = styled.button`
-  background: ${Color.mono[700]};
-  border-radius: ${Radius.MEDIUM};
-  color: ${Color.mono[0]};
-  padding: ${Space * 1}px ${Space * 2}px;
-
-  &:hover {
-    background: ${Color.mono[800]};
-  }
-`;

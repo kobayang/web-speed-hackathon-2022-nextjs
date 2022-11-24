@@ -1,0 +1,11 @@
+.playerNumber {
+  border: 1px solid #1c1917;
+  font-weight: bold;
+  height: 24px;
+  text-align: center;
+  width: 24px;
+}
+
+.playerName {
+  font-size: 0.875rem;
+}

@@ -1,14 +1,17 @@
+"use client";
+
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import styled, { keyframes } from "styled-components";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { Heading } from "../../../../components/typographies/Heading";
-import { useFetch } from "../../../../hooks/useFetch";
 import { useMutation } from "../../../../hooks/useMutation";
 import { Space } from "../../../../styles/variables";
+import { useFetch } from "../../../../hooks/useFetch";
 import { jsonFetcher } from "../../../../utils/HttpUtils";
+
+import styles from "./ChargeDialog.module.css";
 
 const CANCEL = "cancel";
 const CHARGE = "charge";
@@ -21,7 +24,8 @@ const CHARGE = "charge";
 /** @type {React.ForwardRefExoticComponent<{Props>} */
 const ChargeDialog = ({ onComplete, onClose }) => {
   const ref = useRef(null);
-  const { data } = useFetch("/api/bankList", jsonFetcher, true);
+  const { data } = useFetch("/api/zengin-code", jsonFetcher, true);
+
   const [bankCode, setBankCode] = useState("");
   const [branchCode, setBranchCode] = useState("");
   const [accountNo, setAccountNo] = useState("");
@@ -112,9 +116,7 @@ const ChargeDialog = ({ onComplete, onClose }) => {
             </datalist>
 
             {bank != null && (
-              <FadeInDiv animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
-                銀行名: {bank.name}銀行
-              </FadeInDiv>
+              <div className={styles.fadeIn}>銀行名: {bank.name}銀行</div>
             )}
 
             <label>
@@ -136,9 +138,7 @@ const ChargeDialog = ({ onComplete, onClose }) => {
             </datalist>
 
             {branch && (
-              <FadeInDiv animate={{ opacity: 1 }} initial={{ opacity: 0 }}>
-                支店名: {branch.name}
-              </FadeInDiv>
+              <div className={styles.fadeIn}>支店名: {branch.name}</div>
             )}
 
             <label>
@@ -177,17 +177,3 @@ const ChargeDialog = ({ onComplete, onClose }) => {
 ChargeDialog.displayName = "ChargeDialog";
 
 export default ChargeDialog;
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-
-const FadeInDiv = styled.div`
-  opacity: 0;
-  animation: 500ms ${fadeIn} forwards linear;
-`;

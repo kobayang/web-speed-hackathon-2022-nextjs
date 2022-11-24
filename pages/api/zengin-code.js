@@ -6,5 +6,5 @@ const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
 }));
 
 export default async function handler(req, res) {
-  res.status(200).json({ bankList, zenginCode });
+  res.status(200).json({ zenginCode, bankList });
 }

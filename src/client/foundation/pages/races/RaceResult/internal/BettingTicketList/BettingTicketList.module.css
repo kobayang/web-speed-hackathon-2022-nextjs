@@ -1,0 +1,29 @@
+.itemWrapper {
+  padding: 8px 16px;
+}
+.itemWrapper:not(:last-child) {
+  border-bottom: 1px solid #a8a29e;
+}
+
+.cell {
+  padding: 8px;
+}
+
+.table {
+  border-spacing: 0;
+}
+
+.headerTh {
+  border-bottom: 2px solid #1c1917;
+}
+
+.placeholder {
+  align-items: center;
+  color: #a8a29e;
+  display: flex;
+  font-size: 1.25rem;
+  font-weight: bold;
+  gap: 16px;
+  justify-content: center;
+  padding: 16px;
+}

@@ -1,22 +1,20 @@
 import React from "react";
-import styled from "styled-components";
 
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 import { TicketAlt } from "../../../../../components/icons/Icon";
-import { Color, FontSize, Space } from "../../../../../styles/variables";
 
-const ItemWrapper = styled.tr`
-  padding: ${Space * 1}px ${Space * 2}px;
+import styles from "./BettingTicketList.module.css";
 
-  &:not(:last-child) {
-    border-bottom: 1px solid ${Color.mono[400]};
-  }
-`;
-
-const Cell = styled.td`
-  padding: ${Space * 1}px;
-  text-align: ${({ $align }) => $align};
-`;
+const Cell = ({ as = "td", $align, ...props }) => {
+  const As = as;
+  return (
+    <As
+      className={clasnames(styles.cell, props.className)}
+      style={{ textAlign: $align }}
+      {...props}
+    />
+  );
+};
 
 /**
  * @typedef ItemProps
@@ -26,61 +24,44 @@ const Cell = styled.td`
 /** @type {React.VFC<ItemProps>} */
 const Item = ({ ticket: { key } }) => {
   return (
-    <ItemWrapper>
+    <tr className={styles.itemWrapper}>
       <Cell>-</Cell>
       <Cell>
         <EntryCombination numbers={key} />
       </Cell>
       <Cell $align="right">100pt</Cell>
-    </ItemWrapper>
+    </tr>
   );
 };
-
-const Table = styled.table`
-  border-spacing: 0;
-`;
-
-const Header = styled.tr`
-  th {
-    border-bottom: 2px solid ${Color.mono[900]};
-  }
-`;
-
-const Placeholder = styled.div`
-  align-items: center;
-  color: ${Color.mono[400]};
-  display: flex;
-  font-size: ${FontSize.LARGE};
-  font-weight: bold;
-  gap: ${Space * 2}px;
-  justify-content: center;
-  padding: ${Space * 2}px;
-`;
 
 export const BettingTicketList = ({ children }) => {
   if (React.Children.count(children) === 0) {
     return (
-      <Placeholder>
+      <div className={styles.placeholder}>
         {/* <i className="fas fa-ticket-alt" /> */}
         <TicketAlt />
         <div>購入した拳券はありません</div>
-      </Placeholder>
+      </div>
     );
   }
 
   return (
-    <Table>
+    <table className={styles.table}>
       <thead>
-        <Header>
-          <Cell as="th">的中</Cell>
-          <Cell as="th">買い目</Cell>
-          <Cell $align="right" as="th" width="96px">
+        <tr>
+          <Cell clasnames={styles.headerTh} as="th">
+            的中
+          </Cell>
+          <Cell clasnames={styles.headerTh} as="th">
+            買い目
+          </Cell>
+          <Cell clasnames={styles.headerTh} $align="right" as="th" width="96px">
             数量
           </Cell>
-        </Header>
+        </tr>
       </thead>
       <tbody>{children}</tbody>
-    </Table>
+    </table>
   );
 };
 BettingTicketList.Item = Item;

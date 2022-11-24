@@ -1,0 +1,37 @@
+.wrapper {
+  overflow-x: auto;
+}
+
+.table {
+  border-collapse: collapse;
+  border-color: #292524;
+  border-style: solid;
+  border-width: 2px 0 2px;
+  font-size: 0.875rem;
+  min-width: calc(1024px - 24px * 2);
+  text-align: center;
+  width: 100%;
+}
+
+.th,
+.td {
+  border-color: #292524;
+  border-style: solid;
+  border-width: 1px 1px 1px 0;
+}
+
+.th {
+  font-weight: normal;
+  padding: 0 8px;
+}
+
+.theadtr:first-child .theadth:last-child {
+  border-right-width: 0;
+}
+
+.td {
+  padding: 8px;
+}
+.td:last-child {
+  border-right-width: 0;
+}

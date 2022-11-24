@@ -1,0 +1,8 @@
+.liveBadge {
+  background: #ff0000;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: bold;
+  padding: 8px;
+  text-transform: uppercase;
+}

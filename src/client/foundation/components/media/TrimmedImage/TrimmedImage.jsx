@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React from "react";
-import styled from "styled-components";
+import classnames from "classnames";
+
+import styles from "./TrimmedImage.module.css";
 
 /**
  * @typedef Props
@@ -10,17 +12,39 @@ import styled from "styled-components";
  */
 
 /** @type {React.VFC<Props>} */
-export const TrimmedImage = ({ maxWidth, height, src, width }) => {
+export const TrimmedImage = ({
+  maxWidth,
+  height,
+  src,
+  width,
+  priorityClass,
+}) => {
   if (maxWidth) {
     return (
-      <Wrapper $paddingTop={(height / width) * 100} style={{ maxWidth, width }}>
-        <Img quality={2} src={src} alt="" fill priority={true} />
-      </Wrapper>
+      <div
+        className={classnames(styles.wrapper, {
+          [styles.main]: priorityClass === "main",
+          [styles.race]: priorityClass === "sub",
+        })}
+        style={{ maxWidth, width }}
+      >
+        <Image
+          quality={2}
+          src={src}
+          alt=""
+          fill
+          priority={true}
+          className={styles.img}
+        />
+      </div>
     );
   }
   return (
-    <Img
+    <Image
       src={src}
+      style={{
+        objectFit: "cover",
+      }}
       width={width}
       height={height}
       alt=""
@@ -29,17 +53,3 @@ export const TrimmedImage = ({ maxWidth, height, src, width }) => {
     />
   );
 };
-
-const Wrapper = styled.div`
-  position: relative;
-  overflow: hidden;
-  &:before {
-    content: "";
-    display: block;
-    padding-top: ${(p) => p.$paddingTop}%;
-  }
-`;
-
-const Img = styled(Image)`
-  object-fit: cover;
-`;

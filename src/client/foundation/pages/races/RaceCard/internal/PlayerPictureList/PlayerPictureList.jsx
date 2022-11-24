@@ -1,21 +1,9 @@
 import React from "react";
-import styled from "styled-components";
+import styles from "./PlayerPictureList.module.css";
 
 import { Stack } from "../../../../../components/layouts/Stack";
 import { TrimmedImage } from "../../../../../components/media/TrimmedImage";
-import { Color, FontSize, Space } from "../../../../../styles/variables";
-
-const PlayerNumber = styled.span`
-  border: 1px solid ${Color.mono[900]};
-  font-weight: bold;
-  height: 24px;
-  text-align: center;
-  width: 24px;
-`;
-
-const PlayerName = styled.span`
-  font-size: ${FontSize.SMALL};
-`;
+import { Space } from "../../../../../styles/variables";
 
 /**
  * @typedef ItemProps
@@ -36,8 +24,8 @@ const Item = ({ image, name, number }) => {
       />
 
       <Stack horizontal alignItems="center" gap={Space / 2} wrap="wrap">
-        <PlayerNumber>{number}</PlayerNumber>
-        <PlayerName>{name}</PlayerName>
+        <span className={styles.playerNumber}>{number}</span>
+        <span className={styles.playerName}>{name}</span>
       </Stack>
     </Stack>
   );

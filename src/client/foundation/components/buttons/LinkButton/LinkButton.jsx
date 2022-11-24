@@ -1,6 +1,13 @@
 import Link from "next/link";
-import styled from "styled-components";
+import classnames from "classnames";
+import styles from "./LinkButton.module.css";
 
-export const LinkButton = styled(Link).attrs({ prefetch: false })`
-  display: block;
-`;
+export const LinkButton = (props) => {
+  return (
+    <Link
+      className={classnames(styles.linkButton, props.className)}
+      {...props}
+      prefetch={true}
+    />
+  );
+};

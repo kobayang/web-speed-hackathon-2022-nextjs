@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
-import styled, { css, keyframes } from "styled-components";
+"use client";
 
-import { LinkButton } from "../../../../components/buttons/LinkButton";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+
 import { Spacer } from "../../../../components/layouts/Spacer";
 import { Stack } from "../../../../components/layouts/Stack";
 import { TrimmedImage } from "../../../../components/media/TrimmedImage";
-import { Color, FontSize, Radius, Space } from "../../../../styles/variables";
-import { formatCloseAt } from "../../../../utils/DateUtils";
+import { Space } from "../../../../styles/variables";
 import { convertJpgToWebp } from "../../../../utils/convertJpgToWebp";
+import { formatCloseAt } from "../../../../utils/DateUtils";
+
+import styles from "./RecentRaceList.module.css";
 
 export const RecentRaceList = ({ children }) => {
   return (
@@ -16,44 +19,6 @@ export const RecentRaceList = ({ children }) => {
     </Stack>
   );
 };
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
-
-const ItemWrapper = styled.li`
-  background: ${Color.mono[0]};
-  border-radius: ${Radius.MEDIUM};
-  opacity: ${({ $opacity }) => $opacity};
-  padding: ${Space * 3}px;
-  opacity: 0;
-  animation: 100ms ${fadeIn} forwards cubic-bezier(0.2, 0.6, 0.35, 1);
-  ${({ $delay }) =>
-    css`
-      animation-delay: ${$delay}ms;
-    `};
-`;
-
-const RaceButton = styled(LinkButton)`
-  background: ${Color.mono[700]};
-  border-radius: ${Radius.MEDIUM};
-  color: ${Color.mono[0]};
-  padding: ${Space * 1}px ${Space * 2}px;
-
-  &:hover {
-    background: ${Color.mono[800]};
-  }
-`;
-
-const RaceTitle = styled.h2`
-  font-size: ${FontSize.LARGE};
-  font-weight: bold;
-`;
 
 /**
  * @typedef ItemProps
@@ -76,10 +41,13 @@ const Item = ({ race, index }) => {
   }, [race.closeAt]);
 
   return (
-    <ItemWrapper $delay={index * 100}>
+    <li
+      className={styles.itemWrapper}
+      style={{ animationDelay: `${index * 100}ms` }}
+    >
       <Stack horizontal alignItems="center" justifyContent="space-between">
         <Stack gap={Space * 1}>
-          <RaceTitle>{race.name}</RaceTitle>
+          <h2 className={styles.raceTitle}>{race.name}</h2>
           <p>{closeAtText}</p>
         </Stack>
 
@@ -92,11 +60,16 @@ const Item = ({ race, index }) => {
               src={convertJpgToWebp(race.image)}
               width={100}
             />
-            <RaceButton href={`/races/${race.id}/race-card`}>投票</RaceButton>
+            <Link
+              className={styles.raceButton}
+              href={`/races/${race.id}/race-card`}
+            >
+              投票
+            </Link>
           </Stack>
         </Stack.Item>
       </Stack>
-    </ItemWrapper>
+    </li>
   );
 };
 RecentRaceList.Item = React.memo(Item);

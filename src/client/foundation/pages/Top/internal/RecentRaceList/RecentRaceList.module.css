@@ -1,0 +1,32 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.itemWrapper {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  opacity: 0;
+  animation: 100ms fadeIn forwards cubic-bezier(0.2, 0.6, 0.35, 1);
+}
+
+.raceButton {
+  display: block;
+  background: #44403c;
+  border-radius: 12px;
+  color: #fff;
+  padding: 8px 16px;
+}
+.raceButton:hover {
+  background: #292524;
+}
+
+.raceTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
