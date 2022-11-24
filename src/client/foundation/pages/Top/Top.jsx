@@ -1,5 +1,6 @@
+"use client";
+
 import React, { useCallback, useState } from "react";
-import styled from "styled-components";
 
 import { Container } from "../../components/layouts/Container";
 import { Spacer } from "../../components/layouts/Spacer";
@@ -7,7 +8,7 @@ import { Stack } from "../../components/layouts/Stack";
 import { Footer } from "../../components/navs/Footer";
 import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
-import { Color, Radius, Space } from "../../styles/variables";
+import { Space } from "../../styles/variables";
 import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher } from "../../utils/HttpUtils";
 
@@ -15,6 +16,8 @@ import { TrimmedImage } from "../../components/media/TrimmedImage";
 import { RecentRaceList } from "./internal/RecentRaceList";
 
 import ChargeDialog from "./internal/ChargeDialog/ChargeDialog";
+
+import styles from "./Top.module.css";
 
 const getYYYYMMDD = (d) => {
   const date = new Date(d);
@@ -25,8 +28,7 @@ const getYYYYMMDD = (d) => {
 };
 
 /** @type {React.VFC} */
-export const Top = ({ raceData, date: _date }) => {
-  const date = _date || getYYYYMMDD(new Date());
+export const Top = ({ todayRaces }) => {
   const [open, setOpen] = useState(false);
 
   const { data: userData, revalidate } = useAuthorizedFetch(
@@ -43,18 +45,6 @@ export const Top = ({ raceData, date: _date }) => {
   const handleCompleteCharge = useCallback(() => {
     revalidate();
   }, [revalidate]);
-
-  const todayRaces =
-    raceData != null
-      ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              new Date(a.startAt).getTime - new Date(b.startAt).getTime()
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date)
-          )
-      : [];
 
   return (
     <>
@@ -79,9 +69,12 @@ export const Top = ({ raceData, date: _date }) => {
                 <p>払戻金: {userData.payoff}Yeen</p>
               </div>
 
-              <ChargeButton onClick={handleClickChargeButton}>
+              <button
+                className={styles.chargeButton}
+                onClick={handleClickChargeButton}
+              >
                 チャージ
-              </ChargeButton>
+              </button>
             </Stack>
           )}
           <Spacer mt={Space * 2} />
@@ -104,18 +97,6 @@ export const Top = ({ raceData, date: _date }) => {
           )}
         </Container>
       </main>
-      <Footer />
     </>
   );
 };
-
-const ChargeButton = styled.button`
-  background: ${Color.mono[700]};
-  border-radius: 12px;
-  color: #fff;
-  padding: ${Space * 1}px ${Space * 2}px;
-
-  &:hover {
-    background: #292524;
-  }
-`;
