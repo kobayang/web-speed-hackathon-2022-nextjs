@@ -3,7 +3,9 @@ import { Top } from "../src/client/foundation/pages/Top/Top";
 import { isSameDay } from "../src/client/foundation/utils/DateUtils";
 
 async function getRaces() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/races`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/races`, {
+    next: { revalidate: 60 },
+  });
 
   // Recommendation: handle errors
   if (!res.ok) {
