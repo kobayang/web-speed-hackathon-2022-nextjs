@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { getRaces } from "../../../../src/client/apis/getRaces";
 import { Odds } from "../../../../src/client/foundation/pages/races/Odds/Odds";
 import { OddsData } from "../../../../src/client/foundation/pages/races/Odds/OddsData";
@@ -34,7 +35,9 @@ export default async function Page({ params: { raceId } }) {
 
   return (
     <Odds raceId={raceId} data={data} isRaceClosed={isRaceClosed}>
-      <OddsData raceId={raceId} isRaceClosed={isRaceClosed} />
+      <Suspense fallback={null}>
+        <OddsData raceId={raceId} isRaceClosed={isRaceClosed} />
+      </Suspense>
     </Odds>
   );
 }
