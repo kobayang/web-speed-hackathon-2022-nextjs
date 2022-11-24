@@ -1,0 +1,27 @@
+.liveBadge {
+  background: #ff0000;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: bold;
+  padding: 8px;
+  text-transform: uppercase;
+}
+
+.callOut {
+  align-items: center;
+  display: flex;
+  font-weight: bold;
+  gap: 16px;
+  justify-content: left;
+  padding: 8px 16px;
+}
+
+.closed {
+  background: #e7e5e4;
+  color: #57534e;
+}
+
+.noClosed {
+  background: "#dcfce7";
+  color: "#22c55e";
+}

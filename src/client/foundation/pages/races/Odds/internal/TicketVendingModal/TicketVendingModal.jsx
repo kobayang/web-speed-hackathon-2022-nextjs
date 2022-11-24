@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback, useEffect, useState } from "react";
-import styled from "styled-components";
+import styles from "./TicketVendingModal.module.css";
 
 import { EntryCombination } from "../../../../../components/displays/EntryCombination";
 import { Dialog } from "../../../../../components/layouts/Dialog";
@@ -14,10 +14,6 @@ import { authorizedJsonFetcher } from "../../../../../utils/HttpUtils";
 
 const CANCEL = "cancel";
 const BUY = "buy";
-
-const ErrorText = styled.p`
-  color: ${Color.red};
-`;
 
 /**
  * @typedef Props
@@ -93,7 +89,9 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
         <Stack gap={Space * 1}>
           {!shouldShowForm ? (
             <>
-              <ErrorText>購入するにはログインしてください</ErrorText>
+              <p className={styles.errorText}>
+                購入するにはログインしてください
+              </p>
               <menu>
                 <button value={CANCEL}>閉じる</button>
               </menu>
@@ -108,7 +106,7 @@ export const TicketVendingModal = forwardRef(({ odds, raceId }, ref) => {
               <div>使用ポイント: 100pt</div>
               <div>所持しているポイント: {userData.balance}pt</div>
               <div>購入後に残るポイント: {userData.balance - 100}pt</div>
-              {error && <ErrorText>{error}</ErrorText>}
+              {error && <p className={styles.errorText}>{error}</p>}
               <menu>
                 <button value={CANCEL}>キャンセル</button>
                 <button value={BUY}>購入する</button>

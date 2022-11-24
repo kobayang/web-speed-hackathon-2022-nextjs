@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import styled from "styled-components";
+import classnames from "classnames";
+import styles from "./Odds.module.css";
 
 import { InfoCircle } from "../../../components/icons/Icon";
 import { Container } from "../../../components/layouts/Container";
@@ -11,7 +12,7 @@ import { Footer } from "../../../components/navs/Footer";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
 import { useFetch } from "../../../hooks/useFetch";
-import { Color, Radius, Space } from "../../../styles/variables";
+import { Space } from "../../../styles/variables";
 import { formatTime, isBefore } from "../../../utils/DateUtils";
 import { jsonFetcher } from "../../../utils/HttpUtils";
 import { convertJpgToWebp } from "../../../utils/convertJpgToWebp";
@@ -19,27 +20,6 @@ import { convertJpgToWebp } from "../../../utils/convertJpgToWebp";
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { OddsTable } from "./internal/OddsTable";
 import { TicketVendingModal } from "./internal/TicketVendingModal";
-
-const LiveBadge = styled.span`
-  background: ${Color.red};
-  border-radius: ${Radius.SMALL};
-  color: ${Color.mono[0]};
-  font-weight: bold;
-  padding: ${Space * 1}px;
-  text-transform: uppercase;
-`;
-
-const Callout = styled.aside`
-  align-items: center;
-  background: ${({ $closed }) =>
-    $closed ? Color.mono[200] : Color.green[100]};
-  color: ${({ $closed }) => ($closed ? Color.mono[600] : Color.green[500])};
-  display: flex;
-  font-weight: bold;
-  gap: ${Space * 2}px;
-  justify-content: left;
-  padding: ${Space * 1}px ${Space * 2}px;
-`;
 
 export const Odds = ({ data }) => {
   const { raceId } = useRouter().query;
@@ -71,10 +51,11 @@ export const Odds = ({ data }) => {
           </p>
           <Spacer mt={Space * 2} />
           <Section dark shrink>
-            <LiveBadge>Live</LiveBadge>
+            <span className={styles.liveBadge}>Live</span>
             <Spacer mt={Space * 2} />
             <TrimmedImage
               maxWidth={"calc(100vw - 32px)"}
+              priorityClass="race"
               height={225}
               src={convertJpgToWebp(data.image)}
               width={400}
@@ -94,13 +75,18 @@ export const Odds = ({ data }) => {
 
             <Spacer mt={Space * 4} />
 
-            <Callout $closed={isRaceClosed}>
+            <aside
+              className={classnames(
+                styles.callOut,
+                isRaceClosed ? styles.closed : styles.noClosed
+              )}
+            >
               {/* <i className="fas fa-info-circle" /> */}
               <InfoCircle />
               {isRaceClosed
                 ? "このレースの投票は締め切られています"
                 : "オッズをクリックすると拳券が購入できます"}
-            </Callout>
+            </aside>
 
             <Spacer mt={Space * 4} />
             <Heading as="h2">オッズ表</Heading>

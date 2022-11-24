@@ -64,6 +64,7 @@ export const Top = ({ raceData, date: _date }) => {
             width={1024}
             height={735}
             maxWidth={"100%"}
+            priorityClass="main"
             src={"/assets/images/hero.webp"}
           />
           <Spacer mt={Space * 2} />
@@ -110,11 +111,11 @@ export const Top = ({ raceData, date: _date }) => {
 
 const ChargeButton = styled.button`
   background: ${Color.mono[700]};
-  border-radius: ${Radius.MEDIUM};
-  color: ${Color.mono[0]};
+  border-radius: 12px;
+  color: #fff;
   padding: ${Space * 1}px ${Space * 2}px;
 
   &:hover {
-    background: ${Color.mono[800]};
+    background: #292524;
   }
 `;

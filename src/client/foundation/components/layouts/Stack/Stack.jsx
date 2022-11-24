@@ -1,14 +1,4 @@
 import React from "react";
-import styled from "styled-components";
-
-const Wrapper = styled.div`
-  align-items: ${({ $alignItems }) => $alignItems};
-  display: flex;
-  flex-direction: ${({ $horizontal }) => ($horizontal ? "row" : "column")};
-  flex-wrap: ${({ $wrap }) => $wrap};
-  gap: ${({ $gap }) => ($gap ? `${$gap}px` : undefined)};
-  justify-content: ${({ $justifyContent }) => $justifyContent};
-`;
 
 /**
  * @typedef Props
@@ -22,27 +12,24 @@ const Wrapper = styled.div`
 
 export const Stack = (
   /** @type {React.PropsWithChildren<Props>} */
-  { alignItems, as, children, gap, horizontal, justifyContent, wrap }
+  { alignItems, as = "div", children, gap, horizontal, justifyContent, wrap }
 ) => {
+  const As = as;
   return (
-    <Wrapper
-      $alignItems={alignItems}
-      $gap={gap}
-      $horizontal={horizontal}
-      $justifyContent={justifyContent}
-      $wrap={wrap}
-      as={as}
+    <As
+      style={{
+        display: "flex",
+        alignItems,
+        gap: gap ? `${gap}px` : undefined,
+        flexDirection: horizontal ? "row" : "column",
+        justifyContent,
+        flexWrap: wrap,
+      }}
     >
       {children}
-    </Wrapper>
+    </As>
   );
 };
-
-const ItemWrapper = styled.div`
-  flex-basis: ${({ $basis }) => $basis};
-  flex-grow: ${({ $grow }) => $grow};
-  flex-shrink: ${({ $shrink }) => $shrink};
-`;
 
 /**
  * @typedef ItemProps
@@ -53,11 +40,12 @@ const ItemWrapper = styled.div`
  */
 
 /** @type {React.FC<ItemProps>} */
-const Item = ({ as, basis, children, grow, shrink }) => {
+const Item = ({ as = "div", basis, children, grow, shrink }) => {
+  const As = as;
   return (
-    <ItemWrapper $basis={basis} $grow={grow} $shrink={shrink} as={as}>
+    <As style={{ flexBasis: basis, flexGrow: grow, flexShrink: shrink }}>
       {children}
-    </ItemWrapper>
+    </As>
   );
 };
 Stack.Item = Item;

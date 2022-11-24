@@ -1,0 +1,22 @@
+.anchor {
+  border: 1px solid #a8a29e;
+  border-radius: 12px;
+  display: block;
+  font-weight: bold;
+  padding-bottom: 8px;
+  padding-top: 8px;
+  text-align: center;
+  width: 96px;
+}
+.anchor:hover {
+  border-color: #57534e;
+}
+.anchor[aria-current] {
+  background: #1c1917;
+  color: #fff;
+}
+@media (min-width: 1024px) {
+  .anchor {
+    width: 160px;
+  }
+}

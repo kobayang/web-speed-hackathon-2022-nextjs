@@ -27,8 +27,8 @@ const fadeIn = keyframes`
 `;
 
 const ItemWrapper = styled.li`
-  background: ${Color.mono[0]};
-  border-radius: ${Radius.MEDIUM};
+  background: #fff;
+  border-radius: 12px;
   opacity: ${({ $opacity }) => $opacity};
   padding: ${Space * 3}px;
   opacity: 0;
@@ -41,17 +41,17 @@ const ItemWrapper = styled.li`
 
 const RaceButton = styled(LinkButton)`
   background: ${Color.mono[700]};
-  border-radius: ${Radius.MEDIUM};
-  color: ${Color.mono[0]};
+  border-radius: 12px;
+  color: #fff;
   padding: ${Space * 1}px ${Space * 2}px;
 
   &:hover {
-    background: ${Color.mono[800]};
+    background: #292524;
   }
 `;
 
 const RaceTitle = styled.h2`
-  font-size: ${FontSize.LARGE};
+  font-size: 1.25rem;
   font-weight: bold;
 `;
 

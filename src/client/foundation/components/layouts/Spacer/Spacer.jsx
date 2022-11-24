@@ -1,5 +1,4 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useMemo } from "react";
 
 const spacingMap = {
   m: "margin",
@@ -15,21 +14,22 @@ const spacingMap = {
   pt: "paddingTop",
 };
 
-const Wrapper = styled.div((props) => {
-  return Object.entries(spacingMap).reduce((acc, [key, cssProperty]) => {
-    const value = props[key];
-
-    if (value != null) {
-      acc[cssProperty] = typeof value === "number" ? `${value}px` : `${value}`;
-    } else {
-      acc[cssProperty] = "0px";
-    }
-
-    return acc;
-  }, {});
-});
-
 /** @type {React.FC<{ [K in keyof spacingMap]?: number | string }>} */
 export const Spacer = ({ children, ...rest }) => {
-  return <Wrapper {...rest}>{children}</Wrapper>;
+  const style = useMemo(() => {
+    return Object.entries(spacingMap).reduce((acc, [key, cssProperty]) => {
+      const value = rest[key];
+
+      if (value != null) {
+        acc[cssProperty] =
+          typeof value === "number" ? `${value}px` : `${value}`;
+      } else {
+        acc[cssProperty] = "0px";
+      }
+
+      return acc;
+    }, {});
+  }, [rest]);
+
+  return <div style={style}>{children}</div>;
 };

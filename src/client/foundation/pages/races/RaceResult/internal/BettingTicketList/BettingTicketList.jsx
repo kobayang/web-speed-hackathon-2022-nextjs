@@ -9,7 +9,7 @@ const ItemWrapper = styled.tr`
   padding: ${Space * 1}px ${Space * 2}px;
 
   &:not(:last-child) {
-    border-bottom: 1px solid ${Color.mono[400]};
+    border-bottom: 1px solid #a8a29e;
   }
 `;
 
@@ -42,15 +42,15 @@ const Table = styled.table`
 
 const Header = styled.tr`
   th {
-    border-bottom: 2px solid ${Color.mono[900]};
+    border-bottom: 2px solid #1c1917;
   }
 `;
 
 const Placeholder = styled.div`
   align-items: center;
-  color: ${Color.mono[400]};
+  color: #a8a29e;
   display: flex;
-  font-size: ${FontSize.LARGE};
+  font-size: 1.25rem;
   font-weight: bold;
   gap: ${Space * 2}px;
   justify-content: center;

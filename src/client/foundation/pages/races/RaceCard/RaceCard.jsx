@@ -19,9 +19,9 @@ import { EntryTable } from "./internal/EntryTable";
 import { PlayerPictureList } from "./internal/PlayerPictureList";
 
 const LiveBadge = styled.span`
-  background: ${Color.red};
-  border-radius: ${Radius.SMALL};
-  color: ${Color.mono[0]};
+  background: #ff0000;
+  border-radius: 4px;
+  color: #fff;
   font-weight: bold;
   padding: ${Space * 1}px;
   text-transform: uppercase;
@@ -48,6 +48,7 @@ export const RaceCard = ({ data }) => {
             <Spacer mt={Space * 2} />
             <TrimmedImage
               maxWidth={"calc(100vw - 32px)"}
+              priorityClass="race"
               height={225}
               src={convertJpgToWebp(data.image)}
               width={400}

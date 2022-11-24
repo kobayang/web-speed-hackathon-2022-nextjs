@@ -1,0 +1,26 @@
+.wrapper {
+  margin-left: -16px;
+  margin-right: -16px;
+  padding: 16px;
+  display: block;
+  background: #fff;
+  color: #000;
+}
+
+@media (min-width: 1024px) {
+  .wrapper {
+    border-radius: 12px;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 40px 24px;
+  }
+}
+
+.shrink {
+  display: inline-block;
+}
+
+.dark {
+  background: rgb(41, 37, 36);
+  color: #fff;
+}

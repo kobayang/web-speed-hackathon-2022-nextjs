@@ -1,12 +1,12 @@
 import Head from "next/head";
 import { AuthContextProvider } from "../src/client/foundation/contexts/AuthContext";
-import { GlobalStyle } from "../src/client/foundation/styles/GlobalStyle";
+
+import "../src/client/foundation/styles/global.css";
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
       <AuthContextProvider>
-        <GlobalStyle />
         <Head>
           <title>CyberTicket</title>
           <meta charSet="UTF-8" />

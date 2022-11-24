@@ -1,0 +1,22 @@
+.wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.wrapper:before {
+  content: "";
+  display: block;
+  padding-top: 56.25%;
+}
+
+.img {
+  object-fit: cover;
+}
+
+.main:before {
+  padding-top: 71.7773%;
+}
+
+.race:before {
+  padding-top: 56.25%;
+}
