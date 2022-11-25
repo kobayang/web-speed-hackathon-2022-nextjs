@@ -9,16 +9,27 @@ import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { Space } from "../../styles/variables";
 import { authorizedJsonFetcher } from "../../utils/HttpUtils";
-
 import { TrimmedImage } from "../../components/media/TrimmedImage";
-import { RecentRaceList } from "./internal/RecentRaceList";
+import { isSameDay } from "../../utils/DateUtils";
 
+import { RecentRaceList } from "./internal/RecentRaceList";
 import ChargeDialog from "./internal/ChargeDialog/ChargeDialog";
 
 import styles from "./Top.module.css";
 
 /** @type {React.VFC} */
-export const Top = ({ todayRaces }) => {
+export const Top = ({ raceData, date: _date  }) => {
+  const date = _date ? new Date(_date) : new Date();
+  const todayRaces =
+    raceData != null
+      ? raceData.races
+          .sort(
+            (a, b) =>
+              new Date(a.startAt).getTime - new Date(b.startAt).getTime()
+          )
+          .filter((race) => isSameDay(race.startAt, date))
+      : [];
+
   const [open, setOpen] = useState(false);
 
   const { data: userData, revalidate } = useAuthorizedFetch(

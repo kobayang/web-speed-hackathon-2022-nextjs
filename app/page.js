@@ -17,18 +17,6 @@ async function getRaces() {
 }
 
 export default async function Page() {
-  const date = new Date();
   const raceData = await getRaces();
-
-  const todayRaces =
-    raceData != null
-      ? [...raceData.races]
-          .sort(
-            (a, b) =>
-              new Date(a.startAt).getTime - new Date(b.startAt).getTime()
-          )
-          .filter((race) => isSameDay(race.startAt, date))
-      : [];
-
-  return <Top todayRaces={todayRaces} />;
+  return <Top raceData={raceData} />;
 }
