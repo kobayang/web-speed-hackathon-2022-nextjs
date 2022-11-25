@@ -16,5 +16,12 @@ async function getRaces() {
 
 export default async function Page() {
   const raceData = await getRaces();
-  return <Top raceData={raceData} />;
+  const races =
+    raceData != null
+      ? raceData.races.sort(
+          (a, b) => new Date(a.startAt).getTime - new Date(b.startAt).getTime()
+        )
+      : [];
+
+  return <Top races={races} />;
 }
