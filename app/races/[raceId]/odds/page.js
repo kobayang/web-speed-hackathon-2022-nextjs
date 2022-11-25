@@ -1,8 +1,7 @@
-import { Suspense } from "react";
-import { getRaces } from "../../../../src/client/apis/getRaces";
 import { Odds } from "../../../../src/client/foundation/pages/races/Odds/Odds";
 import { OddsData } from "../../../../src/client/foundation/pages/races/Odds/OddsData";
 import { isBefore } from "../../../../src/client/foundation/utils/DateUtils";
+// import { getRaces } from "../../../../src/client/apis/getRaces";
 
 async function getRace(uuid) {
   const res = await fetch(
@@ -18,16 +17,16 @@ async function getRace(uuid) {
   return res.json();
 }
 
-export async function generateStaticParams() {
-  if (process.env.NEXT_PUBLIC_LOCAL_BUILD) {
-    return [];
-  }
-  const { races } = await getRaces();
+// export async function generateStaticParams() {
+//   if (process.env.NEXT_PUBLIC_LOCAL_BUILD) {
+//     return [];
+//   }
+//   const { races } = await getRaces();
 
-  return races.map((race) => ({
-    raceId: race.id,
-  }));
-}
+//   return races.map((race) => ({
+//     raceId: race.id,
+//   }));
+// }
 
 export default async function Page({ params: { raceId } }) {
   const data = await getRace(raceId);
@@ -35,9 +34,7 @@ export default async function Page({ params: { raceId } }) {
 
   return (
     <Odds raceId={raceId} data={data} isRaceClosed={isRaceClosed}>
-      <Suspense fallback={null}>
-        <OddsData raceId={raceId} isRaceClosed={isRaceClosed} />
-      </Suspense>
+      <OddsData raceId={raceId} isRaceClosed={isRaceClosed} />
     </Odds>
   );
 }
