@@ -16,9 +16,8 @@ async function getRaces() {
   return res.json();
 }
 
-const date = new Date();
-
 export default async function Page() {
+  const date = new Date();
   const raceData = await getRaces();
 
   const todayRaces =
