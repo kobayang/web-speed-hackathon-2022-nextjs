@@ -10,13 +10,7 @@ import { Stack } from "../../../../../components/layouts/Stack";
 import { Space } from "../../../../../styles/variables";
 import { OddsMarker } from "../OddsMarker";
 import { BuyButton } from "./BuyButton";
-
-/**
- * @param {number} second
- * @param {number} third
- * @returns {string}
- */
-const mapKey = (second, third) => `${second}.${third}`;
+import { ODdsTableDataClient } from "./OddsTableDataClient";
 
 /**
  * @typedef Props
@@ -26,21 +20,12 @@ const mapKey = (second, third) => `${second}.${third}`;
  */
 
 /** @type {React.VFC<Props>} */
-export function OddsTable({ entries, isRaceClosed, odds }) {
+export function OddsTable({ entries, isRaceClosed, odds, children }) {
   const [firstKey, setFirstKey] = useState(1);
 
   const handleChange = useCallback((e) => {
     setFirstKey(parseInt(e.currentTarget.value, 10));
   }, []);
-
-  const headNumbers = without(range(1, entries.length + 1), firstKey);
-
-  const filteredOdds = odds.filter((item) => item.key[0] === firstKey);
-  const oddsMap = filteredOdds.reduce((acc, cur) => {
-    const [, second, third] = cur.key;
-    acc[mapKey(second, third)] = cur;
-    return acc;
-  }, {});
 
   return (
     <div>
@@ -56,64 +41,17 @@ export function OddsTable({ entries, isRaceClosed, odds }) {
       </Stack>
 
       <Spacer mt={Space * 2} />
-      <div className={styles.scrollWrapper}>
-        <div>
-          <table className={styles.table}>
-            <thead className={styles.th}>
-              <tr>
-                <th className={styles.th} width="64px">
-                  2位
-                </th>
-                <th className={styles.th} width="32px"></th>
 
-                {headNumbers.map((second) => (
-                  <th className={styles.th} key={second} width="auto">
-                    {second}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-
-            <tbody>
-              {headNumbers.map((third, i) => (
-                <tr key={third}>
-                  {i === 0 && (
-                    <th className={styles.th} rowSpan={headNumbers.length}>
-                      3位
-                    </th>
-                  )}
-
-                  <th className={styles.th}>{third}</th>
-
-                  {headNumbers.map((second) => {
-                    const item = oddsMap[mapKey(second, third)];
-
-                    return (
-                      <td className={styles.td} key={second} width="auto">
-                        {second !== third ? (
-                          isRaceClosed ? (
-                            <div className={styles.inactiveBaseButton}>
-                              <OddsMarker odds={item.odds} />
-                            </div>
-                          ) : (
-                            <BuyButton item={item}>
-                              <OddsMarker odds={item.odds} />
-                            </BuyButton>
-                          )
-                        ) : (
-                          <button className={styles.buyButton} disabled>
-                            -
-                          </button>
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      {firstKey === 1 ? (
+        children
+      ) : (
+        <ODdsTableDataClient
+          entries={entries}
+          odds={odds}
+          isRaceClosed={isRaceClosed}
+          firstKey={firstKey}
+        />
+      )}
     </div>
   );
 }
