@@ -1,6 +1,4 @@
-import { useMemo } from "react";
 import { Top } from "../src/client/foundation/pages/Top/Top";
-import { isSameDay } from "../src/client/foundation/utils/DateUtils";
 
 async function getRaces() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/races`, {
@@ -18,5 +16,12 @@ async function getRaces() {
 
 export default async function Page() {
   const raceData = await getRaces();
-  return <Top raceData={raceData} />;
+  const races =
+    raceData != null
+      ? raceData.races.sort(
+          (a, b) => new Date(a.startAt).getTime - new Date(b.startAt).getTime()
+        )
+      : [];
+
+  return <Top races={races} />;
 }
