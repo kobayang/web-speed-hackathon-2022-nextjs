@@ -11,21 +11,16 @@ import { Spacer } from "../../../components/layouts/Spacer";
 import { TrimmedImage } from "../../../components/media/TrimmedImage";
 import { TabNav } from "../../../components/navs/TabNav";
 import { Heading } from "../../../components/typographies/Heading";
-import { useFetch } from "../../../hooks/useFetch";
 import { Space } from "../../../styles/variables";
 import { convertJpgToWebp } from "../../../utils/convertJpgToWebp";
 import { formatTime } from "../../../utils/DateUtils";
-import { jsonFetcher } from "../../../utils/HttpUtils";
 
-import { OddsRankingList } from "./internal/OddsRankingList";
-import { OddsTable } from "./internal/OddsTable";
 import { TicketVendingModal } from "./internal/TicketVendingModal";
 import { OddsModalProvider } from "./useOddsModalContext";
 
-export const Odds = ({ data, raceId, isRaceClosed }) => {
+export const Odds = ({ data, raceId, isRaceClosed, children }) => {
   const [oddsKeyToBuy, setOddsKeyToBuy] = useState(null);
   const modalRef = useRef(null);
-  const { data: oddsData } = useFetch(`/api/races/${raceId}/odds`, jsonFetcher);
 
   const handleClickOdds = useCallback(
     /**
@@ -91,25 +86,7 @@ export const Odds = ({ data, raceId, isRaceClosed }) => {
 
             <Spacer mt={Space * 2} />
 
-            {oddsData && (
-              <>
-                <OddsTable
-                  entries={data.entries}
-                  isRaceClosed={isRaceClosed}
-                  odds={oddsData.trifectaOdds}
-                  onClickOdds={handleClickOdds}
-                />
-                <Spacer mt={Space * 4} />
-                <Heading as="h2">人気順</Heading>
-
-                <Spacer mt={Space * 2} />
-                <OddsRankingList
-                  isRaceClosed={isRaceClosed}
-                  odds={oddsData.trifectaOdds}
-                  onClickOdds={handleClickOdds}
-                />
-              </>
-            )}
+            {children}
           </Section>
           <TicketVendingModal
             ref={modalRef}

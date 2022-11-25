@@ -9,6 +9,7 @@ import { Spacer } from "../../../../../components/layouts/Spacer";
 import { Stack } from "../../../../../components/layouts/Stack";
 import { Space } from "../../../../../styles/variables";
 import { OddsMarker } from "../OddsMarker";
+import { BuyButton } from "./BuyButton";
 
 /**
  * @param {number} second
@@ -22,11 +23,10 @@ const mapKey = (second, third) => `${second}.${third}`;
  * @property {Model.OddsItem[]} odds
  * @property {Model.RaceEntry[]} entries
  * @property {boolean} isRaceClosed
- * @property {(odds: Model.OddsItem) => void} onClickOdds
  */
 
 /** @type {React.VFC<Props>} */
-export function OddsTable({ entries, isRaceClosed, odds, onClickOdds }) {
+export function OddsTable({ entries, isRaceClosed, odds }) {
   const [firstKey, setFirstKey] = useState(1);
 
   const handleChange = useCallback((e) => {
@@ -96,12 +96,9 @@ export function OddsTable({ entries, isRaceClosed, odds, onClickOdds }) {
                               <OddsMarker odds={item.odds} />
                             </div>
                           ) : (
-                            <button
-                              className={styles.buyButton}
-                              onClick={() => onClickOdds(item)}
-                            >
+                            <BuyButton item={item}>
                               <OddsMarker odds={item.odds} />
-                            </button>
+                            </BuyButton>
                           )
                         ) : (
                           <button className={styles.buyButton} disabled>
