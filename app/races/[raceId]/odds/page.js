@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Odds } from "../../../../src/client/foundation/pages/races/Odds/Odds";
 import { OddsData } from "../../../../src/client/foundation/pages/races/Odds/OddsData";
 import { isBefore } from "../../../../src/client/foundation/utils/DateUtils";
@@ -34,7 +35,9 @@ export default async function Page({ params: { raceId } }) {
 
   return (
     <Odds raceId={raceId} data={data} isRaceClosed={isRaceClosed}>
-      <OddsData raceId={raceId} isRaceClosed={isRaceClosed} />
+      <Suspense>
+        <OddsData raceId={raceId} isRaceClosed={isRaceClosed} />
+      </Suspense>
     </Odds>
   );
 }
