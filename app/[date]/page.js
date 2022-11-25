@@ -13,21 +13,7 @@ async function getRaces() {
   return res.json();
 }
 
-export default async function Page({ params: { date: _date } }) {
-  const date = new Date(_date);
+export default async function Page({ params: { date } }) {
   const raceData = await getRaces();
-
-  const todayRaces =
-    raceData != null
-      ? [...raceData.races]
-          .sort(
-            (/** @type {Model.Race} */ a, /** @type {Model.Race} */ b) =>
-              new Date(a.startAt).getTime - new Date(b.startAt).getTime()
-          )
-          .filter((/** @type {Model.Race} */ race) =>
-            isSameDay(race.startAt, date)
-          )
-      : [];
-
-  return <Top todayRaces={todayRaces} />;
+  return <Top raceData={raceData} date={date} />;
 }
