@@ -1,8 +1,8 @@
 import "../src/client/foundation/styles/global.css";
 
 import { Header } from "../src/client/foundation/components/navs/Header/Header";
-import { Footer } from "../src/client/foundation/components/navs/Footer";
 import { Providers } from "./providers";
+import { Suspense } from "react";
 
 export default function RootLayout({ children }) {
   return (
@@ -11,8 +11,7 @@ export default function RootLayout({ children }) {
         <body>
           <div>
             <Header />
-            {children}
-            <Footer />
+            <Suspense>{children}</Suspense>
           </div>
         </body>
       </html>

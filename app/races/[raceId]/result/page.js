@@ -1,3 +1,4 @@
+import { Footer } from "../../../../src/client/foundation/components/navs/Footer";
 import { RaceResult } from "../../../../src/client/foundation/pages/races/RaceResult/RaceResult";
 
 async function getRace(uuid) {
@@ -16,5 +17,10 @@ async function getRace(uuid) {
 
 export default async function Page({ params: { raceId } }) {
   const data = await getRace(raceId);
-  return <RaceResult data={data} raceId={raceId}></RaceResult>;
+  return (
+    <>
+      <RaceResult data={data} raceId={raceId}></RaceResult>
+      <Footer />
+    </>
+  );
 }
