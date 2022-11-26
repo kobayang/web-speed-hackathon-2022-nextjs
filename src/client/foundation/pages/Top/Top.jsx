@@ -59,7 +59,7 @@ export const Top = ({ children }) => {
         <Spacer mt={Space * 2} />
       </Container>
       <Suspense>
-        <Container>{children[0]}</Container>
+        <Container>{children}</Container>
         {/* For awaiting to render races. */}
         <Footer />
       </Suspense>

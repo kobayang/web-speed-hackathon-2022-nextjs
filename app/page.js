@@ -21,7 +21,6 @@ export default async function Page() {
       </Container>
       <Top>
         <RecentRaceListSection />
-        <Footer />
       </Top>
     </>
   );
