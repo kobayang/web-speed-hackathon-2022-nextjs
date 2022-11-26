@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Container } from "../src/client/foundation/components/layouts/Container";
 import { Spacer } from "../src/client/foundation/components/layouts/Spacer";
 import { TrimmedImage } from "../src/client/foundation/components/media/TrimmedImage";
@@ -19,10 +20,12 @@ export default function Page() {
         />
         <Spacer mt={Space * 2} />
       </Container>
-      <Top>
-        <RecentRaceListSection />
-      </Top>
-      <Footer />
+      <Suspense>
+        <Top>
+          <RecentRaceListSection />
+        </Top>
+        <Footer />
+      </Suspense>
     </>
   );
 }
