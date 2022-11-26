@@ -3,7 +3,7 @@ import { RaceCard } from "../../../../src/client/foundation/pages/races/RaceCard
 
 async function getRace(uuid) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/api/races/${uuid}/entries`
+    `${process.env.NEXT_PUBLIC_API_HOST}/api/races/${uuid}/race-card`
   );
 
   // Recommendation: handle errors

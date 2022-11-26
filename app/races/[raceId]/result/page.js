@@ -3,7 +3,7 @@ import { RaceResult } from "../../../../src/client/foundation/pages/races/RaceRe
 
 async function getRace(uuid) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/api/races/${uuid}`
+    `${process.env.NEXT_PUBLIC_API_HOST}/api/races/${uuid}/result`
   );
 
   // Recommendation: handle errors
