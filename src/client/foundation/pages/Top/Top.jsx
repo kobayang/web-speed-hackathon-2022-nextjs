@@ -6,8 +6,6 @@ import React, { Suspense, useCallback, useState } from "react";
 import { Container } from "../../components/layouts/Container";
 import { Spacer } from "../../components/layouts/Spacer";
 import { Stack } from "../../components/layouts/Stack";
-import { TrimmedImage } from "../../components/media/TrimmedImage";
-import { Footer } from "../../components/navs/Footer";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { Space } from "../../styles/variables";
 import { authorizedJsonFetcher } from "../../utils/HttpUtils";
@@ -39,35 +37,29 @@ export const Top = ({ children }) => {
   }, [revalidate]);
 
   return (
-    <>
-      <Container>
-        {userData && (
-          <Stack horizontal alignItems="center" justifyContent="space-between">
-            <div>
-              <p>ポイント残高: {userData.balance}pt</p>
-              <p>払戻金: {userData.payoff}Yeen</p>
-            </div>
+    <Container>
+      {userData && (
+        <Stack horizontal alignItems="center" justifyContent="space-between">
+          <div>
+            <p>ポイント残高: {userData.balance}pt</p>
+            <p>払戻金: {userData.payoff}Yeen</p>
+          </div>
 
-            <button
-              className={styles.chargeButton}
-              onClick={handleClickChargeButton}
-            >
-              チャージ
-            </button>
-          </Stack>
-        )}
-        <Spacer mt={Space * 2} />
-      </Container>
-      <Suspense>
-        <Container>{children}</Container>
-        {/* For awaiting to render races. */}
-        <Footer />
-      </Suspense>
+          <button
+            className={styles.chargeButton}
+            onClick={handleClickChargeButton}
+          >
+            チャージ
+          </button>
+        </Stack>
+      )}
+      <Spacer mt={Space * 2} />
+      {children}
       {open && (
         <Suspense>
           <ChargeDialog onComplete={handleCompleteCharge} onClose={close} />
         </Suspense>
       )}
-    </>
+    </Container>
   );
 };
