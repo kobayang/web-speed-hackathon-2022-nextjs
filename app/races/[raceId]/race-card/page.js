@@ -1,9 +1,8 @@
 import { RaceCard } from "../../../../src/client/foundation/pages/races/RaceCard/RaceCard";
-// import { getRaces } from "../../../../src/client/apis/getRaces";
 
 async function getRace(uuid) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/api/races/${uuid}`
+    `${process.env.NEXT_PUBLIC_API_HOST}/api/races/${uuid}/entries`
   );
 
   // Recommendation: handle errors
@@ -15,18 +14,7 @@ async function getRace(uuid) {
   return res.json();
 }
 
-// export async function generateStaticParams() {
-//   if (process.env.NEXT_PUBLIC_LOCAL_BUILD) {
-//     return [];
-//   }
-//   const { races } = await getRaces();
-
-//   return races.map((race) => ({
-//     raceId: race.id,
-//   }));
-// }
-
 export default async function Page({ params: { raceId } }) {
   const data = await getRace(raceId);
-  return <RaceCard data={data} raceId={raceId} />;
+  return <RaceCard data={data} raceId={raceId}></RaceCard>;
 }

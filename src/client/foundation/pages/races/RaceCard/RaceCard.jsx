@@ -9,14 +9,13 @@ import { Heading } from "../../../components/typographies/Heading";
 import { Space } from "../../../styles/variables";
 import { convertJpgToWebp } from "../../../utils/convertJpgToWebp";
 import { formatTime } from "../../../utils/DateUtils";
-
 import { EntryTable } from "./internal/EntryTable";
 import { PlayerPictureList } from "./internal/PlayerPictureList";
 
 import styles from "./RaceCard.module.css";
 
 /** @type {React.VFC} */
-export const RaceCard = ({ raceId, data }) => {
+export const RaceCard = ({ data, raceId, chidlren }) => {
   return (
     <>
       <main>
@@ -26,9 +25,7 @@ export const RaceCard = ({ raceId, data }) => {
           <p>
             開始 {formatTime(data.startAt)} 締切 {formatTime(data.closeAt)}
           </p>
-
           <Spacer mt={Space * 2} />
-
           <Section dark shrink>
             <span className={styles.liveBadge}>Live</span>
             <Spacer mt={Space * 2} />
@@ -40,9 +37,7 @@ export const RaceCard = ({ raceId, data }) => {
               width={400}
             />
           </Section>
-
           <Spacer mt={Space * 2} />
-
           <Section>
             <TabNav>
               <TabNav.Item aria-current to={`/races/${raceId}/race-card`}>
@@ -51,7 +46,6 @@ export const RaceCard = ({ raceId, data }) => {
               <TabNav.Item to={`/races/${raceId}/odds`}>オッズ</TabNav.Item>
               <TabNav.Item to={`/races/${raceId}/result`}>結果</TabNav.Item>
             </TabNav>
-
             <Spacer mt={Space * 2} />
             <PlayerPictureList>
               {data.entries.map((entry) => (
@@ -63,9 +57,9 @@ export const RaceCard = ({ raceId, data }) => {
                 />
               ))}
             </PlayerPictureList>
-
             <Spacer mt={Space * 4} />
             <EntryTable entries={data.entries} />
+            <Spacer mt={Space * 4} />
           </Section>
         </Container>
       </main>

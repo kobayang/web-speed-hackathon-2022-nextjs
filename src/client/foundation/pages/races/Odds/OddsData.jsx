@@ -2,6 +2,7 @@ import { range, without } from "lodash-es";
 import { Spacer } from "../../../components/layouts/Spacer";
 import { Heading } from "../../../components/typographies/Heading";
 import { Space } from "../../../styles/variables";
+import { isBefore } from "../../../utils/DateUtils";
 import { OddsRankingList } from "./internal/OddsRankingList";
 import { mapKey } from "./internal/OddsTable/mapkey";
 import { OddsTable } from "./internal/OddsTable/OddsTable";
@@ -23,11 +24,11 @@ async function getRaceWithOdds(uuid) {
 
 const firstKey = 1;
 
-export async function OddsData({ raceId, isRaceClosed }) {
-  const raceWithOddsData = await getRaceWithOdds(raceId);
+export async function OddsData({ raceId }) {
+  const data = await getRaceWithOdds(raceId);
 
-  const entries = raceWithOddsData.entries;
-  const odds = raceWithOddsData.trifectaOdds;
+  const entries = data.entries;
+  const odds = data.trifectaOdds;
 
   const headNumbers = without(range(1, entries.length + 1), firstKey);
   const oddsMap = odds
@@ -37,6 +38,8 @@ export async function OddsData({ raceId, isRaceClosed }) {
       acc[mapKey(second, third)] = cur;
       return acc;
     }, {});
+
+  const isRaceClosed = isBefore(data.closeAt, new Date());
 
   return (
     <>
