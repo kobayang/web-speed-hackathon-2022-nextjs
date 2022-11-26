@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import dynamic from "next/dynamic";
+import React, { Suspense, useCallback, useState } from "react";
 
 import { Container } from "../../components/layouts/Container";
 import { Spacer } from "../../components/layouts/Spacer";
@@ -10,9 +11,12 @@ import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { Space } from "../../styles/variables";
 import { authorizedJsonFetcher } from "../../utils/HttpUtils";
 
-import ChargeDialog from "./internal/ChargeDialog/ChargeDialog";
-
 import styles from "./Top.module.css";
+
+const ChargeDialog = dynamic(
+  () => import("./internal/ChargeDialog/ChargeDialog"),
+  { suspense: true }
+);
 
 /** @type {React.VFC} */
 export const Top = ({ children }) => {
@@ -67,7 +71,9 @@ export const Top = ({ children }) => {
           <Spacer mt={Space * 2} />
           {children}
           {open && (
-            <ChargeDialog onComplete={handleCompleteCharge} onClose={close} />
+            <Suspense>
+              <ChargeDialog onComplete={handleCompleteCharge} onClose={close} />
+            </Suspense>
           )}
         </Container>
       </main>
