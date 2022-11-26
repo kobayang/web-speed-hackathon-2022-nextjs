@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import { RecentRaceListSection } from "../../src/client/foundation/pages/Top/RecentRaceListSection";
 import { Top } from "../../src/client/foundation/pages/Top/Top";
 
 async function getRaces() {
@@ -12,14 +14,14 @@ async function getRaces() {
   return res.json();
 }
 
-export default async function Page({ params: { date: _date } }) {
-  const raceData = await getRaces(_date);
-  const races =
-    raceData != null
-      ? raceData.races.sort(
-          (a, b) => new Date(a.startAt).getTime - new Date(b.startAt).getTime()
-        )
-      : [];
-
-  return <Top races={races} date={_date} />;
+export default async function Page({ params: { date } }) {
+  return (
+    <main>
+      <Top>
+        <Suspense>
+          <RecentRaceListSection date={date} />
+        </Suspense>
+      </Top>
+    </main>
+  );
 }

@@ -6,23 +6,16 @@ import { Container } from "../../components/layouts/Container";
 import { Spacer } from "../../components/layouts/Spacer";
 import { Stack } from "../../components/layouts/Stack";
 import { TrimmedImage } from "../../components/media/TrimmedImage";
-import { Heading } from "../../components/typographies/Heading";
 import { useAuthorizedFetch } from "../../hooks/useAuthorizedFetch";
 import { Space } from "../../styles/variables";
-import { isSameDay } from "../../utils/DateUtils";
 import { authorizedJsonFetcher } from "../../utils/HttpUtils";
 
 import ChargeDialog from "./internal/ChargeDialog/ChargeDialog";
-import { RecentRaceList } from "./internal/RecentRaceList/RecentRaceList";
-import { RecentRaceListItem } from "./internal/RecentRaceList/RecentRaceListItem";
 
 import styles from "./Top.module.css";
 
 /** @type {React.VFC} */
-export const Top = ({ races, date: _date }) => {
-  const date = _date ? new Date(_date) : new Date();
-  const todayRaces = races.filter((race) => isSameDay(race.startAt, date));
-
+export const Top = ({ children }) => {
   const [open, setOpen] = useState(false);
 
   const { data: userData, revalidate } = useAuthorizedFetch(
@@ -72,16 +65,7 @@ export const Top = ({ races, date: _date }) => {
             </Stack>
           )}
           <Spacer mt={Space * 2} />
-          <section>
-            <Heading as="h1">本日のレース</Heading>
-            {todayRaces.length > 0 && (
-              <RecentRaceList>
-                {todayRaces.map((race, index) => (
-                  <RecentRaceListItem key={race.id} race={race} index={index} />
-                ))}
-              </RecentRaceList>
-            )}
-          </section>
+          {children}
           {open && (
             <ChargeDialog onComplete={handleCompleteCharge} onClose={close} />
           )}
