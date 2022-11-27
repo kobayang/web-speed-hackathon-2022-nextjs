@@ -12,10 +12,7 @@ import { authorizedJsonFetcher } from "../../utils/HttpUtils";
 
 import styles from "./Top.module.css";
 
-const ChargeDialog = dynamic(
-  () => import("./internal/ChargeDialog/ChargeDialog"),
-  { suspense: true }
-);
+import ChargeDialog from "./internal/ChargeDialog/ChargeDialog";
 
 /** @type {React.VFC} */
 export const Top = ({ children }) => {
@@ -56,9 +53,7 @@ export const Top = ({ children }) => {
       <Spacer mt={Space * 2} />
       {children}
       {open && (
-        <Suspense>
-          <ChargeDialog onComplete={handleCompleteCharge} onClose={close} />
-        </Suspense>
+        <ChargeDialog onComplete={handleCompleteCharge} onClose={close} />
       )}
     </Container>
   );
