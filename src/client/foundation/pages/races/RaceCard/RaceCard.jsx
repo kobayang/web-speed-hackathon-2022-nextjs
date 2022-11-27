@@ -15,7 +15,7 @@ import { PlayerPictureList } from "./internal/PlayerPictureList";
 import styles from "./RaceCard.module.css";
 
 /** @type {React.VFC} */
-export const RaceCard = ({ data, raceId, chidlren }) => {
+export const RaceCard = ({ data, raceId }) => {
   return (
     <>
       <main>

@@ -15,13 +15,6 @@ async function getRaces() {
 }
 
 export default async function Page({ params: { date } }) {
-  return (
-    <main>
-      <Top>
-        <Suspense>
-          <RecentRaceListSection date={date} />
-        </Suspense>
-      </Top>
-    </main>
-  );
+  const raceData = await getRaces(date);
+  return <Top races={raceData.races} date={date} />;
 }

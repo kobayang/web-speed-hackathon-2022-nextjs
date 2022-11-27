@@ -19,7 +19,7 @@ export default async function Page({ params: { raceId } }) {
   const data = await getRace(raceId);
   return (
     <>
-      <RaceCard data={data} raceId={raceId}></RaceCard>
+      <RaceCard data={data} raceId={raceId} />
       <Footer />
     </>
   );
