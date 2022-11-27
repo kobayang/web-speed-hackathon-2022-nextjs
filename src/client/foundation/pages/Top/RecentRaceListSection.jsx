@@ -16,12 +16,5 @@ async function getRaces() {
 
 export async function RecentRaceListSection({ date }) {
   const raceData = await getRaces();
-  const races =
-    raceData != null
-      ? raceData.races.sort(
-          (a, b) => new Date(a.startAt).getTime - new Date(b.startAt).getTime()
-        )
-      : [];
-
-  return <RecentRaceListSectionClient date={date} races={races} />;
+  return <RecentRaceListSectionClient date={date} races={raceData.races} />;
 }
