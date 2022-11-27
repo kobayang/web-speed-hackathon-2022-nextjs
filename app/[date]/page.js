@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-import { RecentRaceListSection } from "../../src/client/foundation/pages/Top/RecentRaceListSection";
 import { Top } from "../../src/client/foundation/pages/Top/Top";
 
 async function getRaces() {
