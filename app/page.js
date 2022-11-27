@@ -20,12 +20,10 @@ export default function Page() {
         />
         <Spacer mt={Space * 2} />
       </Container>
-      <Suspense>
-        <Top>
-          <RecentRaceListSection />
-        </Top>
-        <Footer />
-      </Suspense>
+      <Top>
+        <RecentRaceListSection />
+      </Top>
+      <Footer />
     </>
   );
 }
